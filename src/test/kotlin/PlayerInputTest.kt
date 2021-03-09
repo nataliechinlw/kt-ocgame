@@ -27,5 +27,17 @@ internal class PlayerInputTest {
         assertThrows<Exception> { testPlayer.verifyInput("OO5") }
     }
 
+    @Test
+    internal fun `should accept valid input`() {
+        assertDoesNotThrow { testPlayer.verifyInput("CC4") }
+    }
+
+    @Test
+    internal fun `should reject invalid inputs`() {
+        assertThrows<Exception> { testPlayer.verifyInput("KO1") }
+        assertThrows<Exception> { testPlayer.verifyInput("OT1") }
+        assertThrows<Exception> { testPlayer.verifyInput("OO5") }
+    }
+
 
 }
