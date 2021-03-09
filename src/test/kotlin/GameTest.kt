@@ -39,4 +39,13 @@ internal class GameTest {
         testGame.evaluateWinner(playerInput, aiInput)
         assertEquals("No winner", outputStreamCaptor.toString().trim())
     }
+
+    @Test
+    internal fun `should evaluate winner`() {
+        `when`(playerInput.numberOfOpenHands).thenReturn(1)
+        `when`(playerInput.prediction).thenReturn(2)
+        `when`(aiInput.numberOfOpenHands).thenReturn(1)
+        testGame.evaluateWinner(playerInput, aiInput)
+        assertEquals("You WIN!!", outputStreamCaptor.toString().trim())
+    }
 }

@@ -8,5 +8,7 @@ class Game {
         val prediction = playerInput.prediction
         if (totalNumberOfOpenHands != prediction)
             println("No winner")
+        else
+            println("You WIN!!")
     }
 }
