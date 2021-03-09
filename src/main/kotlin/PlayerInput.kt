@@ -10,6 +10,8 @@ class PlayerInput() {
     fun verifyInput(input: String): Boolean {
         if (input[0] != 'O' && input[0] != 'C')
             throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand")
+        if (input[1] != 'O' && input[1] != 'C')
+            throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand")
         return input !== ""
     }
 }
