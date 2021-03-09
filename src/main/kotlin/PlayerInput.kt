@@ -7,13 +7,12 @@ class PlayerInput(input: String, isPredictor: Boolean) {
         else
             verifyInputWithoutPrediction(input)
     }
-    val numberOfOpenHands = countHands(input)
+    val numberOfOpenHands = countOpenHands(input)
     val prediction = if (isPredictor) { getPrediction(input) } else 0
 
-    fun countHands(input: String): Int {
-        val numberInFirstHand = if (input[0] == 'O') 1 else 0
-        val numberInSecondHand = if (input[1] == 'O') 1 else 0
-        return numberInFirstHand + numberInSecondHand
+    fun countOpenHands(input: String): Int {
+        val openHandPattern = """O""".toRegex()
+        return openHandPattern.findAll(input).count()
     }
 
     fun getPrediction(input: String): Int {
