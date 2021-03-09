@@ -24,5 +24,6 @@ internal class PlayerInputTest {
     internal fun `should reject invalid inputs`() {
         assertThrows<Exception> { testPlayer.verifyInput("KO1") }
         assertThrows<Exception> { testPlayer.verifyInput("OT1") }
+        assertThrows<Exception> { testPlayer.verifyInput("OO5") }
     }
 }
