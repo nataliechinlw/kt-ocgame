@@ -1,10 +1,14 @@
 import java.lang.Exception
 
-class PlayerInput(input: String) {
+class PlayerInput(input: String, isPredictor: Boolean) {
     init {
-        verifyInputWithoutPrediction(input)
+        if (isPredictor)
+            verifyInputWithPrediction(input)
+        else
+            verifyInputWithoutPrediction(input)
     }
     val numberOfOpenHands = countHands(input)
+    val prediction = if (isPredictor) { getPrediction(input) } else 0
 
     fun countHands(input: String): Int {
         val numberInFirstHand = if (input[0] == 'O') 1 else 0
