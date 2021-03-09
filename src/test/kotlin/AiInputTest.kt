@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.RepeatedTest
-import org.junit.jupiter.api.Test
 
 internal class AiInputTest {
     @RepeatedTest(10)
@@ -8,6 +7,7 @@ internal class AiInputTest {
         val testInput = AiInput()
         val inputPattern = """[OC][OC]""".toRegex()
 
-        assertTrue(inputPattern.matches(testInput.generateInput()))
+        assertTrue(inputPattern.matches(testInput.input))
+        assertTrue(testInput.numberOfOpenHands < 3)
     }
 }
