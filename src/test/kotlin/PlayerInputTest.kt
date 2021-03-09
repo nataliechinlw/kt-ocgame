@@ -26,4 +26,6 @@ internal class PlayerInputTest {
         assertThrows<Exception> { testPlayer.verifyInput("OT1") }
         assertThrows<Exception> { testPlayer.verifyInput("OO5") }
     }
+
+
 }
