@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -16,15 +15,15 @@ internal class PlayerInputTest {
     }
 
     @Test
-    internal fun `should accept valid input`() {
-        assertDoesNotThrow { testPlayer.verifyInput("CC4") }
+    internal fun `should accept valid input with prediction`() {
+        assertDoesNotThrow { testPlayer.verifyInputWithPrediction("CC4") }
     }
 
     @Test
-    internal fun `should reject invalid inputs`() {
-        assertThrows<Exception> { testPlayer.verifyInput("KO1") }
-        assertThrows<Exception> { testPlayer.verifyInput("OT1") }
-        assertThrows<Exception> { testPlayer.verifyInput("OO5") }
+    internal fun `should reject invalid inputs with prediction`() {
+        assertThrows<Exception> { testPlayer.verifyInputWithPrediction("KO1") }
+        assertThrows<Exception> { testPlayer.verifyInputWithPrediction("OT1") }
+        assertThrows<Exception> { testPlayer.verifyInputWithPrediction("OO5") }
     }
 
     @Test
