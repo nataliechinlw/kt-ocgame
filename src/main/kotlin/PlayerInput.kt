@@ -4,4 +4,8 @@ class PlayerInput() {
         val numberInSecondHand = if (input[1] == 'O') 1 else 0
         return numberInFirstHand + numberInSecondHand
     }
+
+    fun verifyInput(input: String): Boolean {
+        return input !== ""
+    }
 }
