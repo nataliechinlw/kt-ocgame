@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import org.mockito.Mockito.*
 
 internal class PlayerInputTest {
     private val testPlayer = PlayerInput("OO", false)
@@ -58,5 +59,12 @@ internal class PlayerInputTest {
         val playerInput = PlayerInput("CC4", true)
         assertEquals(0, playerInput.numberOfOpenHands)
         assertEquals(4, playerInput.prediction)
+    }
+
+    @Test
+    internal fun `should create player input`() {
+        val playerInput = PlayerInput.createPlayerInput("CC1", true)
+        assertEquals(0, playerInput.numberOfOpenHands)
+        assertEquals(1, playerInput.prediction)
     }
 }

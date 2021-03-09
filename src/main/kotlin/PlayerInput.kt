@@ -31,5 +31,12 @@ class PlayerInput(input: String, isPredictor: Boolean) {
             throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand.")
     }
 
-
+    companion object {
+        fun createPlayerInput(input: String?, isPredictor: Boolean): PlayerInput {
+            if (input == null)
+                throw Exception()
+            else
+                return PlayerInput(input, isPredictor)
+        }
+    }
 }
