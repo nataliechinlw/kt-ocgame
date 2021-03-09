@@ -11,4 +11,8 @@ class Game {
         else
             println("You WIN!!")
     }
+
+    fun askForInput() {
+        println("You are the predictor, what is your input?")
+    }
 }

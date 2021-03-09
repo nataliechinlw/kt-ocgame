@@ -48,4 +48,10 @@ internal class GameTest {
         testGame.evaluateWinner(playerInput, aiInput)
         assertEquals("You WIN!!", outputStreamCaptor.toString().trim())
     }
+
+    @Test
+    internal fun `should ask for input`() {
+        testGame.askForInput()
+        assertEquals("You are the predictor, what is your input?", outputStreamCaptor.toString().trim())
+    }
 }
