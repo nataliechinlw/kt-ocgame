@@ -27,5 +27,8 @@ internal class PlayerInputTest {
         assertThrows<Exception> { testPlayer.verifyInput("OO5") }
     }
 
-
+    @Test
+    internal fun `should get prediction`() {
+        assertEquals(4, testPlayer.getPrediction("OO4"))
+    }
 }
