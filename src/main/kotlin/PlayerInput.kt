@@ -7,13 +7,9 @@ class PlayerInput() {
         return numberInFirstHand + numberInSecondHand
     }
 
-    fun verifyInput(input: String): Boolean {
-        if (input[0] != 'O' && input[0] != 'C')
-            throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand")
-        if (input[1] != 'O' && input[1] != 'C')
-            throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand")
-        if (input[2].toString().toInt() > 4)
-            throw Exception("Bad input: prediction should be in the range of 0-4.")
-        return input !== ""
+    fun verifyInput(input: String) {
+        val validInputPattern = """[OC][OC][0-4]""".toRegex()
+        if (!validInputPattern.matches(input))
+            throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand, followed by the prediction (0-4).")
     }
 }
