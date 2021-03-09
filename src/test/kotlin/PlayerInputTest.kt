@@ -30,4 +30,19 @@ internal class PlayerInputTest {
         assertThrows<Exception> { testPlayer.verifyInputWithPrediction("OT1") }
         assertThrows<Exception> { testPlayer.verifyInputWithPrediction("OO5") }
     }
+
+    @Test
+    internal fun `should accept valid input without prediction`() {
+        assertDoesNotThrow { testPlayer.verifyInputWithoutPrediction("CC") }
+        assertDoesNotThrow { testPlayer.verifyInputWithoutPrediction("CO") }
+        assertDoesNotThrow { testPlayer.verifyInputWithoutPrediction("OC") }
+        assertDoesNotThrow { testPlayer.verifyInputWithoutPrediction("OO") }
+    }
+
+    @Test
+    internal fun `should reject invalid inputs without prediction`() {
+        assertThrows<Exception> { testPlayer.verifyInputWithoutPrediction("KO") }
+        assertThrows<Exception> { testPlayer.verifyInputWithoutPrediction("OT") }
+        assertThrows<Exception> { testPlayer.verifyInputWithoutPrediction("OO1") }
+    }
 }

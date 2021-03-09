@@ -16,4 +16,10 @@ class PlayerInput() {
         if (!validInputPattern.matches(input))
             throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand, followed by the prediction (0-4).")
     }
+
+    fun verifyInputWithoutPrediction(input: String) {
+        val validInputPattern = """[OC][OC]""".toRegex()
+        if (!validInputPattern.matches(input))
+            throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand.")
+    }
 }
