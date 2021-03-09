@@ -1,3 +1,5 @@
+import java.lang.Exception
+
 class PlayerInput() {
     fun countHands(input: String): Int {
         val numberInFirstHand = if (input[0] == 'O') 1 else 0
@@ -6,6 +8,8 @@ class PlayerInput() {
     }
 
     fun verifyInput(input: String): Boolean {
+        if (input[0] != 'O' && input[0] != 'C')
+            throw Exception("Bad input: correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand")
         return input !== ""
     }
 }

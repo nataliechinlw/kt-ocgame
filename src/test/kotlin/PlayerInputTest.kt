@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 internal class PlayerInputTest {
@@ -17,5 +18,10 @@ internal class PlayerInputTest {
     @Test
     internal fun `should accept valid input`() {
         assertDoesNotThrow { testPlayer.verifyInput("CC4") }
+    }
+
+    @Test
+    internal fun `should reject invalid inputs`() {
+        assertThrows<Exception> { testPlayer.verifyInput("KO1") }
     }
 }
