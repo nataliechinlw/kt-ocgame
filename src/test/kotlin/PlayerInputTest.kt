@@ -4,7 +4,7 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 internal class PlayerInputTest {
-    private val testPlayer = PlayerInput()
+    private val testPlayer = PlayerInput("OO")
 
     @Test
     internal fun `should count number of open hands`() {
@@ -44,5 +44,10 @@ internal class PlayerInputTest {
         assertThrows<Exception> { testPlayer.verifyInputWithoutPrediction("KO") }
         assertThrows<Exception> { testPlayer.verifyInputWithoutPrediction("OT") }
         assertThrows<Exception> { testPlayer.verifyInputWithoutPrediction("OO1") }
+    }
+
+    @Test
+    internal fun `should set number of open hands`() {
+        assertEquals(0, PlayerInput("CC").numberOfOpenHands)
     }
 }
