@@ -17,8 +17,15 @@ class Game(private val terminal: Terminal) {
         return PlayerInput.createPlayerInput(terminal.getInput(), true)
     }
 
-    fun generateAiInput() {
+    fun generateAiInput(): AiInput {
         val aiInput = AiInput()
         terminal.printMessage(aiInput.input)
+        return aiInput
+    }
+
+    fun runRound() {
+        val playerInput = askForInput()
+        val aiInput = generateAiInput()
+        evaluateWinner(playerInput, aiInput)
     }
 }

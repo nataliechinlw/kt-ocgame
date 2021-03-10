@@ -7,7 +7,7 @@ internal class GameTest {
     private val aiInput = mockkClass(AiInput::class)
     private val terminal = mockkClass(Terminal::class)
 
-    private var testGame = Game(terminal)
+    private var testGame = spyk(Game(terminal))
 
     @BeforeEach
     internal fun setUp() {
@@ -53,5 +53,17 @@ internal class GameTest {
     internal fun `should generate AI input`() {
         testGame.generateAiInput()
         verify { terminal.printMessage(any()) }
+    }
+
+    @Test
+    internal fun `should run round in correct sequence`() {
+        every { terminal.getInput() } returns "OO2"
+        testGame.runRound()
+        verifySequence {
+            testGame.runRound()
+            testGame.askForInput()
+            testGame.generateAiInput()
+            testGame.evaluateWinner(any(),any())
+        }
     }
 }
