@@ -1,3 +1,3 @@
 fun main(args: Array<String>) {
-    Game().start()
+    Game(Terminal()).start()
 }
