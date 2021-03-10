@@ -20,7 +20,7 @@ class Game(private val terminal: Terminal) {
 
     fun generateAiInput(): AiInput {
         val aiInput = AiInput()
-        terminal.printMessage(aiInput.input)
+        terminal.printMessage("AI: ${aiInput.input}")
         return aiInput
     }
 
