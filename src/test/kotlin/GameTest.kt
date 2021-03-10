@@ -1,6 +1,7 @@
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
@@ -13,6 +14,11 @@ internal class GameTest {
     internal fun setUp() {
         every { terminal.printMessage(any()) } just runs
         every { terminal.getInput() } returns "OO2"
+    }
+
+    @Test
+    internal fun `should start with HUMAN player as predictor`() {
+        assertEquals(PLAYER.HUMAN, testGame.currentPredictor)
     }
 
     @Test

@@ -1,4 +1,6 @@
 class Game(private val terminal: Terminal) {
+    var currentPredictor: PLAYER = PLAYER.HUMAN
+
     fun start() {
         terminal.printMessage("Welcome to the game!")
         runRound()
@@ -29,4 +31,9 @@ class Game(private val terminal: Terminal) {
         val aiInput = generateAiInput()
         evaluateWinner(playerInput, aiInput)
     }
+}
+
+enum class PLAYER {
+    HUMAN,
+    AI
 }
