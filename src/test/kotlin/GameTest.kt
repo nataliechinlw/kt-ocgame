@@ -48,4 +48,10 @@ internal class GameTest {
             terminal.getInput()
         }
     }
+
+    @Test
+    internal fun `should generate AI input`() {
+        testGame.generateAiInput()
+        verify { terminal.printMessage(any()) }
+    }
 }
