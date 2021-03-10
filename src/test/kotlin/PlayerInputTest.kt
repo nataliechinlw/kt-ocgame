@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
-import org.mockito.Mockito.*
 
 internal class PlayerInputTest {
     private val testPlayer = PlayerInput("OO", false)

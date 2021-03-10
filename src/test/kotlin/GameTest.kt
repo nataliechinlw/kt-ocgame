@@ -1,43 +1,51 @@
+import io.mockk.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
 
 internal class GameTest {
-    private val playerInput = mock(PlayerInput::class.java)
-    private val aiInput = mock(AiInput::class.java)
-    private val terminal = mock(Terminal::class.java)
+    private val playerInput = mockkClass(PlayerInput::class)
+    private val aiInput = mockkClass(AiInput::class)
+    private val terminal = mockkClass(Terminal::class)
 
     private var testGame = Game(terminal)
+
+    @BeforeEach
+    internal fun setUp() {
+        every { terminal.printMessage(any()) } just runs
+    }
 
     @Test
     internal fun `should print welcome message`() {
         testGame.start()
-        verify(terminal).printMessage("Welcome to the game!")
+        verify { terminal.printMessage("Welcome to the game!") }
     }
 
     @Test
     internal fun `should evaluate no winner`() {
-        `when`(playerInput.numberOfOpenHands).thenReturn(1)
-        `when`(playerInput.prediction).thenReturn(1)
-        `when`(aiInput.numberOfOpenHands).thenReturn(1)
+        every { playerInput.numberOfOpenHands } returns 1
+        every { playerInput.prediction } returns 1
+        every { aiInput.numberOfOpenHands } returns 1
         testGame.evaluateWinner(playerInput, aiInput)
-        verify(terminal).printMessage("No winner")
+        verify { terminal.printMessage("No winner") }
     }
 
     @Test
     internal fun `should evaluate winner`() {
-        `when`(playerInput.numberOfOpenHands).thenReturn(1)
-        `when`(playerInput.prediction).thenReturn(2)
-        `when`(aiInput.numberOfOpenHands).thenReturn(1)
+        every { playerInput.numberOfOpenHands } returns 1
+        every { playerInput.prediction } returns 2
+        every { aiInput.numberOfOpenHands } returns 1
         testGame.evaluateWinner(playerInput, aiInput)
-        verify(terminal).printMessage("You WIN!!")
+        verify { terminal.printMessage("You WIN!!") }
     }
 
     @Test
     internal fun `should ask for input`() {
-        `when`(playerInput.numberOfOpenHands).thenReturn(1)
-        `when`(terminal.getInput()).thenReturn("OO2")
+        every { playerInput.numberOfOpenHands } returns 1
+        every { terminal.getInput() } returns "OO2"
         testGame.askForInput()
-        verify(terminal).printMessage("You are the predictor, what is your input?")
-        verify(terminal).getInput()
+        verify {
+            terminal.printMessage("You are the predictor, what is your input?")
+            terminal.getInput()
+        }
     }
 }

@@ -16,4 +16,9 @@ class Game(private val terminal: Terminal) {
         terminal.printMessage("You are the predictor, what is your input?")
         return PlayerInput.createPlayerInput(terminal.getInput(), true)
     }
+
+    fun generateAiInput() {
+        val aiInput = AiInput()
+        terminal.printMessage(aiInput.input)
+    }
 }
