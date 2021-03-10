@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 internal class TerminalTest {
+    private val terminal = Terminal()
     private val standardOut = System.out
     private val standardIn = System.`in`
     private val outputStreamCaptor = ByteArrayOutputStream()
@@ -31,7 +32,7 @@ internal class TerminalTest {
     @Test
     internal fun `should print message`() {
         val message = "any string"
-        Terminal.printMessage(message)
+        terminal.printMessage(message)
         assertEquals(message, outputStreamCaptor.toString().trim())
     }
 
@@ -39,6 +40,6 @@ internal class TerminalTest {
     internal fun `should return user input`() {
         val input = "hello world"
         mockUserInput(input)
-        assertEquals(input, Terminal.getInput())
+        assertEquals(input, terminal.getInput())
     }
 }
