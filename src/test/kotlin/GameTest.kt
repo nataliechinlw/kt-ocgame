@@ -12,6 +12,7 @@ internal class GameTest {
     @BeforeEach
     internal fun setUp() {
         every { terminal.printMessage(any()) } just runs
+        every { terminal.getInput() } returns "OO2"
     }
 
     @Test
@@ -41,7 +42,6 @@ internal class GameTest {
     @Test
     internal fun `should ask for input`() {
         every { playerInput.numberOfOpenHands } returns 1
-        every { terminal.getInput() } returns "OO2"
         testGame.askForInput()
         verify {
             terminal.printMessage("You are the predictor, what is your input?")
@@ -57,7 +57,6 @@ internal class GameTest {
 
     @Test
     internal fun `should run round in correct sequence`() {
-        every { terminal.getInput() } returns "OO2"
         testGame.runRound()
         verifySequence {
             testGame.runRound()
