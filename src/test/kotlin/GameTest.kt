@@ -49,11 +49,22 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should ask for input`() {
+    internal fun `should ask for input as predictor`() {
         every { playerInput.numberOfOpenHands } returns 1
         testGame.askForInput()
         verify {
             terminal.printMessage("You are the predictor, what is your input?")
+            terminal.getInput()
+        }
+    }
+
+    @Test
+    internal fun `should ask for input not as predictor`() {
+        testGame.currentPredictor = PLAYER.AI
+        every { playerInput.numberOfOpenHands } returns 1
+        testGame.askForInput()
+        verify {
+            terminal.printMessage("AI is the predictor, what is your input?")
             terminal.getInput()
         }
     }
