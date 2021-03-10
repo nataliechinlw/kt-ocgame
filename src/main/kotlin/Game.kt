@@ -1,6 +1,7 @@
 class Game(private val terminal: Terminal) {
     fun start() {
         terminal.printMessage("Welcome to the game!")
+        runRound()
     }
 
     fun evaluateWinner(playerInput: PlayerInput, aiInput: AiInput) {

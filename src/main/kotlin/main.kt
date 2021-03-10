@@ -1,3 +1,4 @@
 fun main(args: Array<String>) {
-    Game(Terminal()).start()
+    val game = Game(Terminal())
+    game.start()
 }
