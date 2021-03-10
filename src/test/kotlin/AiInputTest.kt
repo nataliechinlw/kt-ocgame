@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.Test
 
 internal class AiInputTest {
     @RepeatedTest(10)
@@ -9,5 +10,12 @@ internal class AiInputTest {
 
         assertTrue(inputPattern.matches(testInput.input))
         assertTrue(testInput.numberOfOpenHands < 3)
+    }
+
+    @Test
+    internal fun `should not generate prediction if not predictor`() {
+        val testInput = AiInput()
+
+        assertNull(testInput.prediction)
     }
 }
