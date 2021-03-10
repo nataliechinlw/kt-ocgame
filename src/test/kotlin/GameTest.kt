@@ -16,7 +16,7 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should print welcome message`() {
+    internal fun `should start game`() {
         testGame.start()
         verifyOrder {
             terminal.printMessage("Welcome to the game!")
