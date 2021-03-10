@@ -34,7 +34,10 @@ internal class GameTest {
 
     @Test
     internal fun `should ask for input`() {
+        `when`(playerInput.numberOfOpenHands).thenReturn(1)
+        `when`(terminal.getInput()).thenReturn("OO2")
         testGame.askForInput()
         verify(terminal).printMessage("You are the predictor, what is your input?")
+        verify(terminal).getInput()
     }
 }
