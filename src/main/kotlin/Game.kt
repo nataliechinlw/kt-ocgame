@@ -42,7 +42,7 @@ class Game {
         when (winner) {
             PLAYER.HUMAN -> "You WIN!!"
             PLAYER.AI -> "AI WINS!!"
-            null -> "No winner"
+            null -> "No winner."
         }
     )
 

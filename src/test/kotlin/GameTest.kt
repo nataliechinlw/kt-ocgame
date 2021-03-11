@@ -152,7 +152,7 @@ internal class GameTest {
         @Test
         internal fun `should print no winner if null winner`() {
             testGame.printWinner(null)
-            verify { Terminal.printMessage("No winner") }
+            verify { Terminal.printMessage("No winner.") }
         }
 
         @Test
