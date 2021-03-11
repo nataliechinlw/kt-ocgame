@@ -50,7 +50,8 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should evaluate no winner`() {
+    internal fun `should evaluate no winner with HUMAN predictor`() {
+        testGame.currentPredictor = PLAYER.HUMAN
         every { playerInput.numberOfOpenHands } returns 1
         every { playerInput.prediction } returns 1
         every { aiInput.numberOfOpenHands } returns 1
@@ -59,12 +60,23 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should evaluate winner`() {
+    internal fun `should evaluate winner with HUMAN predictor`() {
+        testGame.currentPredictor = PLAYER.HUMAN
         every { playerInput.numberOfOpenHands } returns 1
         every { playerInput.prediction } returns 2
         every { aiInput.numberOfOpenHands } returns 1
         testGame.evaluateWinner(playerInput, aiInput)
         verify { Terminal.printMessage("You WIN!!") }
+    }
+
+    @Test
+    internal fun `should evaluate no winner with AI predictor`() {
+        testGame.currentPredictor = PLAYER.AI
+        every { playerInput.numberOfOpenHands } returns 1
+        every { aiInput.numberOfOpenHands } returns 1
+        every { aiInput.prediction } returns 1
+        testGame.evaluateWinner(playerInput, aiInput)
+        verify { Terminal.printMessage("No winner") }
     }
 
     @Test

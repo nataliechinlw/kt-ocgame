@@ -8,7 +8,10 @@ class Game {
 
     fun evaluateWinner(playerInput: PlayerInput, aiInput: AiInput) {
         val totalNumberOfOpenHands = playerInput.numberOfOpenHands + aiInput.numberOfOpenHands
-        val prediction = playerInput.prediction
+        val prediction = when (currentPredictor) {
+            PLAYER.HUMAN -> playerInput.prediction
+            PLAYER.AI -> aiInput.prediction
+        }
         if (totalNumberOfOpenHands != prediction)
             Terminal.printMessage("No winner")
         else
