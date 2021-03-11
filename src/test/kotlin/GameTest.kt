@@ -6,19 +6,19 @@ import kotlin.test.assertEquals
 internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
     private val aiInput = mockkClass(AiInput::class)
-    private val terminal = mockkClass(Terminal::class)
-    private var testGame = spyk(Game(terminal))
+    private var testGame = spyk(Game())
 
     @BeforeEach
     internal fun setUp() {
+        mockkObject(Terminal)
         mockkObject(PlayerInput.Companion)
-        every { terminal.printMessage(any()) } just runs
-        every { terminal.getInput() } returns "OO2"
+        every { Terminal.printMessage(any()) } just runs
+        every { Terminal.getInput() } returns "OO2"
     }
 
     @Test
     internal fun `should start with HUMAN player as predictor in a new Game`() {
-        assertEquals(PLAYER.HUMAN, Game(terminal).currentPredictor)
+        assertEquals(PLAYER.HUMAN, Game().currentPredictor)
     }
 
     @Test
@@ -30,7 +30,7 @@ internal class GameTest {
 
     @Test
     internal fun `should switch from AI to HUMAN as predictor after round`() {
-        every { terminal.getInput() } returns "OO"
+        every { Terminal.getInput() } returns "OO"
         testGame.currentPredictor = PLAYER.AI
         testGame.runRound()
         assertEquals(PLAYER.HUMAN, testGame.currentPredictor)
@@ -40,7 +40,7 @@ internal class GameTest {
     internal fun `should start game`() {
         testGame.start()
         verifyOrder {
-            terminal.printMessage("Welcome to the game!")
+            Terminal.printMessage("Welcome to the game!")
             testGame.runRound()
         }
     }
@@ -51,7 +51,7 @@ internal class GameTest {
         every { playerInput.prediction } returns 1
         every { aiInput.numberOfOpenHands } returns 1
         testGame.evaluateWinner(playerInput, aiInput)
-        verify { terminal.printMessage("No winner") }
+        verify { Terminal.printMessage("No winner") }
     }
 
     @Test
@@ -60,28 +60,28 @@ internal class GameTest {
         every { playerInput.prediction } returns 2
         every { aiInput.numberOfOpenHands } returns 1
         testGame.evaluateWinner(playerInput, aiInput)
-        verify { terminal.printMessage("You WIN!!") }
+        verify { Terminal.printMessage("You WIN!!") }
     }
 
     @Test
     internal fun `should ask for input as predictor`() {
-        every { terminal.getInput() } returns "OO2"
+        every { Terminal.getInput() } returns "OO2"
         testGame.askForInput()
         verify {
-            terminal.printMessage("You are the predictor, what is your input?")
-            terminal.getInput()
+            Terminal.printMessage("You are the predictor, what is your input?")
+            Terminal.getInput()
             PlayerInput.Companion.createPlayerInput("OO2", true)
         }
     }
 
     @Test
     internal fun `should ask for input not as predictor`() {
-        every { terminal.getInput() } returns "OO"
+        every { Terminal.getInput() } returns "OO"
         testGame.currentPredictor = PLAYER.AI
         testGame.askForInput()
         verify {
-            terminal.printMessage("AI is the predictor, what is your input?")
-            terminal.getInput()
+            Terminal.printMessage("AI is the predictor, what is your input?")
+            Terminal.getInput()
             PlayerInput.Companion.createPlayerInput("OO", false)
         }
     }
@@ -89,7 +89,7 @@ internal class GameTest {
     @Test
     internal fun `should generate AI input`() {
         testGame.generateAiInput()
-        verify { terminal.printMessage(any()) }
+        verify { Terminal.printMessage(any()) }
     }
 
     @Test

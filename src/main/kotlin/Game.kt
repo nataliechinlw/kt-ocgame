@@ -1,8 +1,8 @@
-class Game(private val terminal: Terminal) {
+class Game() {
     var currentPredictor: PLAYER = PLAYER.HUMAN
 
     fun start() {
-        terminal.printMessage("Welcome to the game!")
+        Terminal.printMessage("Welcome to the game!")
         runRound()
     }
 
@@ -10,9 +10,9 @@ class Game(private val terminal: Terminal) {
         val totalNumberOfOpenHands = playerInput.numberOfOpenHands + aiInput.numberOfOpenHands
         val prediction = playerInput.prediction
         if (totalNumberOfOpenHands != prediction)
-            terminal.printMessage("No winner")
+            Terminal.printMessage("No winner")
         else
-            terminal.printMessage("You WIN!!")
+            Terminal.printMessage("You WIN!!")
     }
 
     fun askForInput(): PlayerInput {
@@ -20,13 +20,13 @@ class Game(private val terminal: Terminal) {
             PLAYER.HUMAN -> "You are the predictor, what is your input?"
             PLAYER.AI -> "AI is the predictor, what is your input?"
         }
-        terminal.printMessage(message)
-        return PlayerInput.createPlayerInput(terminal.getInput(), currentPredictor == PLAYER.HUMAN)
+        Terminal.printMessage(message)
+        return PlayerInput.createPlayerInput(Terminal.getInput(), currentPredictor == PLAYER.HUMAN)
     }
 
     fun generateAiInput(): AiInput {
         val aiInput = AiInput()
-        terminal.printMessage("AI: ${aiInput.input}")
+        Terminal.printMessage("AI: ${aiInput.input}")
         return aiInput
     }
 
