@@ -12,18 +12,7 @@ class Game {
             PLAYER.HUMAN -> playerInput.prediction
             PLAYER.AI -> aiInput.prediction
         }
-        return if (totalNumberOfOpenHands != prediction) {
-            Terminal.printMessage("No winner")
-            null
-        } else {
-            Terminal.printMessage(
-                when (currentPredictor) {
-                    PLAYER.HUMAN -> "You WIN!!"
-                    PLAYER.AI -> "AI WINS!!"
-                }
-            )
-            currentPredictor
-        }
+        return if (totalNumberOfOpenHands != prediction) null else currentPredictor
     }
 
     fun askForInput(): PlayerInput {
@@ -44,9 +33,18 @@ class Game {
     fun runRound() {
         val playerInput = askForInput()
         val aiInput = generateAiInput()
-        evaluateWinner(playerInput, aiInput)
+        val winner = evaluateWinner(playerInput, aiInput)
+        printWinner(winner)
         setNextPredictor()
     }
+
+    fun printWinner(winner: PLAYER?) = Terminal.printMessage(
+        when (winner) {
+            PLAYER.HUMAN -> "You WIN!!"
+            PLAYER.AI -> "AI WINS!!"
+            null -> "No winner"
+        }
+    )
 
     private fun setNextPredictor() {
         currentPredictor = when (currentPredictor) {

@@ -1,5 +1,6 @@
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -58,7 +59,6 @@ internal class GameTest {
         every { aiInput.numberOfOpenHands } returns 1
 
         assertNull(testGame.evaluateWinner(playerInput, aiInput))
-        verify { Terminal.printMessage("No winner") }
     }
 
     @Test
@@ -69,7 +69,6 @@ internal class GameTest {
         every { aiInput.numberOfOpenHands } returns 1
 
         assertEquals(PLAYER.HUMAN, testGame.evaluateWinner(playerInput, aiInput))
-        verify { Terminal.printMessage("You WIN!!") }
     }
 
     @Test
@@ -80,7 +79,6 @@ internal class GameTest {
         every { aiInput.prediction } returns 1
 
         assertNull(testGame.evaluateWinner(playerInput, aiInput))
-        verify { Terminal.printMessage("No winner") }
     }
 
     @Test
@@ -91,7 +89,6 @@ internal class GameTest {
         every { aiInput.prediction } returns 2
 
         assertEquals(PLAYER.AI, testGame.evaluateWinner(playerInput, aiInput))
-        verify { Terminal.printMessage("AI WINS!!") }
     }
 
     @Test
@@ -145,7 +142,29 @@ internal class GameTest {
             testGame.askForInput()
             testGame.generateAiInput()
             testGame.evaluateWinner(any(), any())
+            testGame.printWinner(any())
             testGame["setNextPredictor"]
+        }
+    }
+
+    @Nested
+    inner class PrintWinnerTest {
+        @Test
+        internal fun `should print no winner if null winner`() {
+            testGame.printWinner(null)
+            verify { Terminal.printMessage("No winner") }
+        }
+
+        @Test
+        internal fun `should print user winner if HUMAN winner`() {
+            testGame.printWinner(PLAYER.HUMAN)
+            verify { Terminal.printMessage("You WIN!!") }
+        }
+
+        @Test
+        internal fun `should print AI winner if AI winner`() {
+            testGame.printWinner(PLAYER.AI)
+            verify { Terminal.printMessage("AI WINS!!") }
         }
     }
 }
