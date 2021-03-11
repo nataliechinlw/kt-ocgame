@@ -12,6 +12,15 @@ internal class AiInputTest {
         assertTrue(testInput.numberOfOpenHands < 3)
     }
 
+    @RepeatedTest(10)
+    internal fun `should generate number of open hands with prediction if predictor`() {
+        val testInput = AiInput(true)
+        val inputPattern = """[OC][OC][0-4]""".toRegex()
+
+        assertTrue(inputPattern.matches(testInput.input))
+        assertTrue(testInput.numberOfOpenHands < 3)
+    }
+
     @Test
     internal fun `should not generate prediction if not predictor`() {
         val testInput = AiInput()
@@ -24,6 +33,7 @@ internal class AiInputTest {
         val testInput = AiInput(true)
 
         assertNotNull(testInput.prediction)
+        assertTrue(testInput.prediction!! >= 0)
         assertTrue(testInput.prediction!! >= 0)
         assertTrue(testInput.prediction!! <= 4)
     }
