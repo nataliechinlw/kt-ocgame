@@ -1,7 +1,7 @@
 import kotlin.random.Random
 
-class AiInput {
-    val prediction: Int? = null
+class AiInput(isPredictor: Boolean = false) {
+    val prediction: Int? = if (isPredictor) Random.nextInt(0, 5) else null
     val input: String = generateInput()
     val numberOfOpenHands = Regex("O").findAll(input).count()
     private fun generateInput(): String {

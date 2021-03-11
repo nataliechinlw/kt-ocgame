@@ -18,4 +18,13 @@ internal class AiInputTest {
 
         assertNull(testInput.prediction)
     }
+
+    @RepeatedTest(10)
+    internal fun `should generate prediction if predictor`() {
+        val testInput = AiInput(true)
+
+        assertNotNull(testInput.prediction)
+        assertTrue(testInput.prediction!! >= 0)
+        assertTrue(testInput.prediction!! <= 4)
+    }
 }
