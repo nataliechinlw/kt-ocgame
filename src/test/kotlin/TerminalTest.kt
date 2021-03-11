@@ -1,3 +1,4 @@
+import io.mockk.unmockkAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -14,6 +15,7 @@ internal class TerminalTest {
 
     @BeforeEach
     fun setUp() {
+        unmockkAll()
         System.setOut(PrintStream(outputStreamCaptor))
     }
 

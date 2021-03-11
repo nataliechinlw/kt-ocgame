@@ -11,9 +11,12 @@ internal class GameTest {
     @BeforeEach
     internal fun setUp() {
         mockkObject(Terminal)
+        mockkConstructor(PlayerInput::class)
         mockkObject(PlayerInput.Companion)
         every { Terminal.printMessage(any()) } just runs
         every { Terminal.getInput() } returns "OO2"
+        every { anyConstructed<PlayerInput>().numberOfOpenHands } returns 1
+        every { anyConstructed<PlayerInput>().prediction } returns 1
     }
 
     @Test

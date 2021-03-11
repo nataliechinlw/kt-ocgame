@@ -1,3 +1,5 @@
+import io.mockk.unmockkAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -5,6 +7,11 @@ import kotlin.test.assertEquals
 
 internal class PlayerInputTest {
     private val testPlayer = PlayerInput("OO", false)
+
+    @BeforeEach
+    internal fun setUp() {
+        unmockkAll()
+    }
 
     @Test
     internal fun `should count number of open hands`() {
