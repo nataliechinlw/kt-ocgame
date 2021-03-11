@@ -1,4 +1,4 @@
-class Game() {
+class Game {
     var currentPredictor: PLAYER = PLAYER.HUMAN
 
     fun start() {
