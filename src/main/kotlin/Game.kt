@@ -34,6 +34,14 @@ class Game(private val terminal: Terminal) {
         val playerInput = askForInput()
         val aiInput = generateAiInput()
         evaluateWinner(playerInput, aiInput)
+        setNextPredictor()
+    }
+
+    private fun setNextPredictor() {
+        currentPredictor = when (currentPredictor) {
+            PLAYER.AI -> PLAYER.HUMAN
+            PLAYER.HUMAN -> PLAYER.AI
+        }
     }
 }
 

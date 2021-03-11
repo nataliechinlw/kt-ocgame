@@ -17,7 +17,21 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should start with HUMAN player as predictor`() {
+    internal fun `should start with HUMAN player as predictor in a new Game`() {
+        assertEquals(PLAYER.HUMAN, Game(terminal).currentPredictor)
+    }
+
+    @Test
+    internal fun `should switch from HUMAN to AI as predictor after round`() {
+        testGame.currentPredictor = PLAYER.HUMAN
+        testGame.runRound()
+        assertEquals(PLAYER.AI, testGame.currentPredictor)
+    }
+
+    @Test
+    internal fun `should switch from AI to HUMAN as predictor after round`() {
+        testGame.currentPredictor = PLAYER.AI
+        testGame.runRound()
         assertEquals(PLAYER.HUMAN, testGame.currentPredictor)
     }
 
@@ -59,17 +73,6 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should ask for input not as predictor`() {
-        testGame.currentPredictor = PLAYER.AI
-        every { playerInput.numberOfOpenHands } returns 1
-        testGame.askForInput()
-        verify {
-            terminal.printMessage("AI is the predictor, what is your input?")
-            terminal.getInput()
-        }
-    }
-
-    @Test
     internal fun `should generate AI input`() {
         testGame.generateAiInput()
         verify { terminal.printMessage(any()) }
@@ -83,6 +86,7 @@ internal class GameTest {
             testGame.askForInput()
             testGame.generateAiInput()
             testGame.evaluateWinner(any(),any())
+            testGame["setNextPredictor"]
         }
     }
 }
