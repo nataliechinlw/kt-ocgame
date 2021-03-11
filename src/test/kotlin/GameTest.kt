@@ -80,6 +80,16 @@ internal class GameTest {
     }
 
     @Test
+    internal fun `should evaluate winner with AI predictor`() {
+        testGame.currentPredictor = PLAYER.AI
+        every { playerInput.numberOfOpenHands } returns 1
+        every { aiInput.numberOfOpenHands } returns 1
+        every { aiInput.prediction } returns 2
+        testGame.evaluateWinner(playerInput, aiInput)
+        verify { Terminal.printMessage("AI WINS!!") }
+    }
+
+    @Test
     internal fun `should ask for input as predictor`() {
         every { Terminal.getInput() } returns "OO2"
         testGame.askForInput()

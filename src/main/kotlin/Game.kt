@@ -15,7 +15,12 @@ class Game {
         if (totalNumberOfOpenHands != prediction)
             Terminal.printMessage("No winner")
         else
-            Terminal.printMessage("You WIN!!")
+            Terminal.printMessage(
+                when (currentPredictor) {
+                    PLAYER.HUMAN -> "You WIN!!"
+                    PLAYER.AI -> "AI WINS!!"
+                }
+            )
     }
 
     fun askForInput(): PlayerInput {
