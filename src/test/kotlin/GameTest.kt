@@ -7,11 +7,11 @@ internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
     private val aiInput = mockkClass(AiInput::class)
     private val terminal = mockkClass(Terminal::class)
-
     private var testGame = spyk(Game(terminal))
 
     @BeforeEach
     internal fun setUp() {
+        mockkObject(PlayerInput.Companion)
         every { terminal.printMessage(any()) } just runs
         every { terminal.getInput() } returns "OO2"
     }
@@ -30,6 +30,7 @@ internal class GameTest {
 
     @Test
     internal fun `should switch from AI to HUMAN as predictor after round`() {
+        every { terminal.getInput() } returns "OO"
         testGame.currentPredictor = PLAYER.AI
         testGame.runRound()
         assertEquals(PLAYER.HUMAN, testGame.currentPredictor)
@@ -64,11 +65,24 @@ internal class GameTest {
 
     @Test
     internal fun `should ask for input as predictor`() {
-        every { playerInput.numberOfOpenHands } returns 1
+        every { terminal.getInput() } returns "OO2"
         testGame.askForInput()
         verify {
             terminal.printMessage("You are the predictor, what is your input?")
             terminal.getInput()
+            PlayerInput.Companion.createPlayerInput("OO2", true)
+        }
+    }
+
+    @Test
+    internal fun `should ask for input not as predictor`() {
+        every { terminal.getInput() } returns "OO"
+        testGame.currentPredictor = PLAYER.AI
+        testGame.askForInput()
+        verify {
+            terminal.printMessage("AI is the predictor, what is your input?")
+            terminal.getInput()
+            PlayerInput.Companion.createPlayerInput("OO", false)
         }
     }
 
