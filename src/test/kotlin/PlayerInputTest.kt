@@ -69,7 +69,7 @@ internal class PlayerInputTest {
 
     @Test
     internal fun `should create player input`() {
-        val playerInput = PlayerInput.createPlayerInput("CC1", true)
+        val playerInput = PlayerInput.create("CC1", true)
         assertEquals(0, playerInput.numberOfOpenHands)
         assertEquals(1, playerInput.prediction)
     }

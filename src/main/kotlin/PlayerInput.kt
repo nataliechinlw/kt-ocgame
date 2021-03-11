@@ -32,7 +32,7 @@ class PlayerInput(input: String, isPredictor: Boolean) {
     }
 
     companion object {
-        fun createPlayerInput(input: String?, isPredictor: Boolean): PlayerInput {
+        fun create(input: String?, isPredictor: Boolean): PlayerInput {
             if (input == null)
                 throw Exception()
             else

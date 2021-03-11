@@ -73,7 +73,7 @@ internal class GameTest {
         verify {
             Terminal.printMessage("You are the predictor, what is your input?")
             Terminal.getInput()
-            PlayerInput.Companion.createPlayerInput("OO2", true)
+            PlayerInput.Companion.create("OO2", true)
         }
     }
 
@@ -85,7 +85,7 @@ internal class GameTest {
         verify {
             Terminal.printMessage("AI is the predictor, what is your input?")
             Terminal.getInput()
-            PlayerInput.Companion.createPlayerInput("OO", false)
+            PlayerInput.Companion.create("OO", false)
         }
     }
 
