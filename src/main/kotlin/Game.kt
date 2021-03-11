@@ -6,21 +6,24 @@ class Game {
         runRound()
     }
 
-    fun evaluateWinner(playerInput: PlayerInput, aiInput: AiInput) {
+    fun evaluateWinner(playerInput: PlayerInput, aiInput: AiInput): PLAYER? {
         val totalNumberOfOpenHands = playerInput.numberOfOpenHands + aiInput.numberOfOpenHands
         val prediction = when (currentPredictor) {
             PLAYER.HUMAN -> playerInput.prediction
             PLAYER.AI -> aiInput.prediction
         }
-        if (totalNumberOfOpenHands != prediction)
+        return if (totalNumberOfOpenHands != prediction) {
             Terminal.printMessage("No winner")
-        else
+            null
+        } else {
             Terminal.printMessage(
                 when (currentPredictor) {
                     PLAYER.HUMAN -> "You WIN!!"
                     PLAYER.AI -> "AI WINS!!"
                 }
             )
+            currentPredictor
+        }
     }
 
     fun askForInput(): PlayerInput {

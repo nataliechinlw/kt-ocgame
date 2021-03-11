@@ -2,6 +2,7 @@ import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
@@ -55,7 +56,8 @@ internal class GameTest {
         every { playerInput.numberOfOpenHands } returns 1
         every { playerInput.prediction } returns 1
         every { aiInput.numberOfOpenHands } returns 1
-        testGame.evaluateWinner(playerInput, aiInput)
+
+        assertNull(testGame.evaluateWinner(playerInput, aiInput))
         verify { Terminal.printMessage("No winner") }
     }
 
@@ -65,7 +67,8 @@ internal class GameTest {
         every { playerInput.numberOfOpenHands } returns 1
         every { playerInput.prediction } returns 2
         every { aiInput.numberOfOpenHands } returns 1
-        testGame.evaluateWinner(playerInput, aiInput)
+
+        assertEquals(PLAYER.HUMAN, testGame.evaluateWinner(playerInput, aiInput))
         verify { Terminal.printMessage("You WIN!!") }
     }
 
@@ -75,7 +78,8 @@ internal class GameTest {
         every { playerInput.numberOfOpenHands } returns 1
         every { aiInput.numberOfOpenHands } returns 1
         every { aiInput.prediction } returns 1
-        testGame.evaluateWinner(playerInput, aiInput)
+
+        assertNull(testGame.evaluateWinner(playerInput, aiInput))
         verify { Terminal.printMessage("No winner") }
     }
 
@@ -85,7 +89,8 @@ internal class GameTest {
         every { playerInput.numberOfOpenHands } returns 1
         every { aiInput.numberOfOpenHands } returns 1
         every { aiInput.prediction } returns 2
-        testGame.evaluateWinner(playerInput, aiInput)
+
+        assertEquals(PLAYER.AI, testGame.evaluateWinner(playerInput, aiInput))
         verify { Terminal.printMessage("AI WINS!!") }
     }
 
@@ -139,7 +144,7 @@ internal class GameTest {
             testGame.runRound()
             testGame.askForInput()
             testGame.generateAiInput()
-            testGame.evaluateWinner(any(),any())
+            testGame.evaluateWinner(any(), any())
             testGame["setNextPredictor"]
         }
     }
