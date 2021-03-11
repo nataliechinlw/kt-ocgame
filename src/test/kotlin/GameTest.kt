@@ -12,12 +12,13 @@ internal class GameTest {
 
     @BeforeEach
     internal fun setUp() {
+        unmockkAll()
         mockkObject(Terminal)
         mockkConstructor(PlayerInput::class)
         mockkObject(PlayerInput.Companion)
         mockkObject(AiInput.Companion)
         every { Terminal.printMessage(any()) } just runs
-        every { Terminal.getInput() } returns "OO2"
+        every { Terminal.getInput() } returns "OO3"
         every { anyConstructed<PlayerInput>().numberOfOpenHands } returns 1
         every { anyConstructed<PlayerInput>().prediction } returns 1
     }
@@ -145,6 +146,14 @@ internal class GameTest {
             testGame.printWinner(any())
             testGame["setNextPredictor"]
         }
+    }
+
+    @Test
+    internal fun `should keep running round until winner is found`() {
+        every { testGame.evaluateWinner(any(), any()) } returnsMany listOf(null, null, PLAYER.HUMAN)
+        every { Terminal.getInput() } returnsMany listOf("CC4", "CC", "OO3")
+        testGame.start()
+        verify(exactly = 3) { testGame.runRound() }
     }
 
     @Nested
