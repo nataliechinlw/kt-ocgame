@@ -25,7 +25,7 @@ class Game {
     }
 
     fun generateAiInput(): AiInput {
-        val aiInput = AiInput()
+        val aiInput = AiInput.create(currentPredictor == PLAYER.AI)
         Terminal.printMessage("AI: ${aiInput.input}")
         return aiInput
     }

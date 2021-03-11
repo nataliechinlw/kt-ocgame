@@ -14,4 +14,8 @@ class AiInput(isPredictor: Boolean = false) {
         val secondHand = if (Random.nextBoolean()) "O" else "C"
         return firstHand + secondHand
     }
+
+    companion object {
+        fun create(isPredictor: Boolean) = AiInput(isPredictor)
+    }
 }

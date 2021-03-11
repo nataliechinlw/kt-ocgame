@@ -13,6 +13,7 @@ internal class GameTest {
         mockkObject(Terminal)
         mockkConstructor(PlayerInput::class)
         mockkObject(PlayerInput.Companion)
+        mockkObject(AiInput.Companion)
         every { Terminal.printMessage(any()) } just runs
         every { Terminal.getInput() } returns "OO2"
         every { anyConstructed<PlayerInput>().numberOfOpenHands } returns 1
@@ -90,9 +91,23 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should generate AI input`() {
+    internal fun `should generate AI input not as predictor`() {
+        testGame.currentPredictor = PLAYER.HUMAN
         testGame.generateAiInput()
-        verify { Terminal.printMessage(any()) }
+        verify {
+            AiInput.Companion.create(false)
+            Terminal.printMessage(any())
+        }
+    }
+
+    @Test
+    internal fun `should generate AI input as predictor`() {
+        testGame.currentPredictor = PLAYER.AI
+        testGame.generateAiInput()
+        verify {
+            AiInput.Companion.create(true)
+            Terminal.printMessage(any())
+        }
     }
 
     @Test
