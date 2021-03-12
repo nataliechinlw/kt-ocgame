@@ -1,9 +1,9 @@
 class Game {
     var currentPredictor: PLAYER = PLAYER.HUMAN
+    var winner: PLAYER? = null
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
-        var winner: PLAYER? = null
         while (winner == null) {
             winner = runRound()
         }
@@ -36,7 +36,7 @@ class Game {
     fun runRound(): PLAYER? {
         val playerInput = askForInput()
         val aiInput = generateAiInput()
-        val winner = evaluateWinner(playerInput, aiInput)
+        winner = evaluateWinner(playerInput, aiInput)
         printWinner(winner)
         setNextPredictor()
         return winner
