@@ -1,4 +1,4 @@
-import io.mockk.unmockkAll
+import io.mockk.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import java.io.ByteArrayInputStream
@@ -48,5 +48,15 @@ internal class TerminalTest {
     internal fun `should get input until not null`() {
         mockUserInput("")
         assertTimeout(Duration.ofMillis(1)) { Terminal.getInput() }
+    }
+
+    @Test
+    internal fun `should use validator in getInput`() {
+        val dummyValidator: (String) -> Boolean = mockk()
+        val testInput = "input"
+        every { dummyValidator(testInput) } returns true
+        mockUserInput(testInput)
+        assertEquals(testInput, Terminal.getInput(dummyValidator))
+        verify { dummyValidator(testInput) }
     }
 }

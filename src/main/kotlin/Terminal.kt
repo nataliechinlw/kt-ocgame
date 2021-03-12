@@ -7,6 +7,13 @@ object Terminal {
             if (input != null)
                 return input
         }
+    }
 
+    fun getInput(isValid: (String) -> Boolean): String {
+        while (true) {
+            val input = getInput()
+            if (isValid(input))
+                return input
+        }
     }
 }
