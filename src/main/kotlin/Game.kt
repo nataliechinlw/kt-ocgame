@@ -6,6 +6,8 @@ class Game {
         Terminal.printMessage("Welcome to the game!")
         runSession()
         Terminal.printMessage("Do you want to play again?")
+        Terminal.getInput()
+        Terminal.printMessage("Ok, bye!")
     }
 
     private fun runSession() {

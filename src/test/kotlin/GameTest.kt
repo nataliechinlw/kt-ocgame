@@ -48,11 +48,14 @@ internal class GameTest {
     @Test
     internal fun `should welcome and run game`() {
         every { testGame["runSession"]() } returns Unit
+        every { Terminal.getInput() } returns "N"
         testGame.start()
         verifySequence {
             Terminal.printMessage("Welcome to the game!")
             testGame["runSession"]
             Terminal.printMessage("Do you want to play again?")
+            Terminal.getInput()
+            Terminal.printMessage("Ok, bye!")
         }
     }
 
