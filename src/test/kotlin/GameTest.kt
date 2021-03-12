@@ -24,8 +24,10 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should start with HUMAN player as predictor in a new Game`() {
-        assertEquals(PLAYER.HUMAN, Game().currentPredictor)
+    internal fun `should start with HUMAN player as predictor and no winner in a new Game`() {
+        val newGame = Game()
+        assertEquals(PLAYER.HUMAN, newGame.currentPredictor)
+        assertNull(newGame.winner)
     }
 
     @Test
