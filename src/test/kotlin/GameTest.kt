@@ -45,6 +45,7 @@ internal class GameTest {
 
     @Test
     internal fun `should start game`() {
+        every { testGame.runRound() } returns PLAYER.HUMAN
         testGame.start()
         verifyOrder {
             Terminal.printMessage("Welcome to the game!")
