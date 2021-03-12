@@ -1,11 +1,10 @@
 import io.mockk.unmockkAll
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import java.time.Duration
 
 internal class TerminalTest {
     private val standardOut = System.out
@@ -42,5 +41,12 @@ internal class TerminalTest {
         val input = "hello world"
         mockUserInput(input)
         assertEquals(input, Terminal.getInput())
+    }
+
+    @Disabled
+    @Test
+    internal fun `should get input until not null`() {
+        mockUserInput("")
+        assertTimeout(Duration.ofMillis(1)) { Terminal.getInput() }
     }
 }

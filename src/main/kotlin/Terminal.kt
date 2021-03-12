@@ -1,7 +1,12 @@
 object Terminal {
     fun printMessage(message: String) = println(message)
-    fun getInput(): String? {
-        print("\t")
-        return readLine()
+    fun getInput(): String {
+        while (true) {
+            print("\t")
+            val input = readLine()
+            if (input != null)
+                return input
+        }
+
     }
 }
