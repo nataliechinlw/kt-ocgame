@@ -52,6 +52,7 @@ internal class GameTest {
         verifySequence {
             Terminal.printMessage("Welcome to the game!")
             testGame["runSession"]
+            Terminal.printMessage("Do you want to play again?")
         }
     }
 
