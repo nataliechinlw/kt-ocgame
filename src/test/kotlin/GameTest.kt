@@ -46,12 +46,12 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should start game`() {
-        every { testGame.runRound() } returns PLAYER.HUMAN
+    internal fun `should welcome and run game`() {
+        every { testGame["runSession"]() } returns Unit
         testGame.start()
-        verifyOrder {
+        verifySequence {
             Terminal.printMessage("Welcome to the game!")
-            testGame.runRound()
+            testGame["runSession"]
         }
     }
 

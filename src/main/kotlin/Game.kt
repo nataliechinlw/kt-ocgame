@@ -4,6 +4,10 @@ class Game {
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
+        runSession()
+    }
+
+    private fun runSession() {
         while (winner == null) {
             winner = runRound()
         }
