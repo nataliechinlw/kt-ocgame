@@ -52,44 +52,47 @@ internal class GameTest {
         }
     }
 
-    @Test
-    internal fun `should evaluate no winner with HUMAN predictor`() {
-        testGame.currentPredictor = PLAYER.HUMAN
-        every { playerInput.numberOfOpenHands } returns 1
-        every { playerInput.prediction } returns 1
-        every { aiInput.numberOfOpenHands } returns 1
+    @Nested
+    inner class EvaluateWinnerTest {
+        @Test
+        internal fun `should evaluate no winner with HUMAN predictor`() {
+            testGame.currentPredictor = PLAYER.HUMAN
+            every { playerInput.numberOfOpenHands } returns 1
+            every { playerInput.prediction } returns 1
+            every { aiInput.numberOfOpenHands } returns 1
 
-        assertNull(testGame.evaluateWinner(playerInput, aiInput))
-    }
+            assertNull(testGame.evaluateWinner(playerInput, aiInput))
+        }
 
-    @Test
-    internal fun `should evaluate winner with HUMAN predictor`() {
-        testGame.currentPredictor = PLAYER.HUMAN
-        every { playerInput.numberOfOpenHands } returns 1
-        every { playerInput.prediction } returns 2
-        every { aiInput.numberOfOpenHands } returns 1
+        @Test
+        internal fun `should evaluate winner with HUMAN predictor`() {
+            testGame.currentPredictor = PLAYER.HUMAN
+            every { playerInput.numberOfOpenHands } returns 1
+            every { playerInput.prediction } returns 2
+            every { aiInput.numberOfOpenHands } returns 1
 
-        assertEquals(PLAYER.HUMAN, testGame.evaluateWinner(playerInput, aiInput))
-    }
+            assertEquals(PLAYER.HUMAN, testGame.evaluateWinner(playerInput, aiInput))
+        }
 
-    @Test
-    internal fun `should evaluate no winner with AI predictor`() {
-        testGame.currentPredictor = PLAYER.AI
-        every { playerInput.numberOfOpenHands } returns 1
-        every { aiInput.numberOfOpenHands } returns 1
-        every { aiInput.prediction } returns 1
+        @Test
+        internal fun `should evaluate no winner with AI predictor`() {
+            testGame.currentPredictor = PLAYER.AI
+            every { playerInput.numberOfOpenHands } returns 1
+            every { aiInput.numberOfOpenHands } returns 1
+            every { aiInput.prediction } returns 1
 
-        assertNull(testGame.evaluateWinner(playerInput, aiInput))
-    }
+            assertNull(testGame.evaluateWinner(playerInput, aiInput))
+        }
 
-    @Test
-    internal fun `should evaluate winner with AI predictor`() {
-        testGame.currentPredictor = PLAYER.AI
-        every { playerInput.numberOfOpenHands } returns 1
-        every { aiInput.numberOfOpenHands } returns 1
-        every { aiInput.prediction } returns 2
+        @Test
+        internal fun `should evaluate winner with AI predictor`() {
+            testGame.currentPredictor = PLAYER.AI
+            every { playerInput.numberOfOpenHands } returns 1
+            every { aiInput.numberOfOpenHands } returns 1
+            every { aiInput.prediction } returns 2
 
-        assertEquals(PLAYER.AI, testGame.evaluateWinner(playerInput, aiInput))
+            assertEquals(PLAYER.AI, testGame.evaluateWinner(playerInput, aiInput))
+        }
     }
 
     @Test
