@@ -1,4 +1,3 @@
-import Game.InputValidator.yesNo
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -11,7 +10,7 @@ import kotlin.test.assertTrue
 internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
     private val aiInput = mockkClass(AiInput::class)
-    private var testGame = spyk(Game())
+    private var testGame = spyk(Game(), recordPrivateCalls = true)
 
     @BeforeEach
     internal fun setUp() {
@@ -22,6 +21,7 @@ internal class GameTest {
         mockkObject(AiInput.Companion)
         every { Terminal.printMessage(any()) } just runs
         every { Terminal.getInput() } returns "OO3"
+        every { Terminal.getInput(any()) } returns "N"
         every { anyConstructed<PlayerInput>().numberOfOpenHands } returns 1
         every { anyConstructed<PlayerInput>().prediction } returns 1
     }
@@ -58,9 +58,17 @@ internal class GameTest {
             testGame["runSession"]
             Terminal.printMessage("Do you want to play again?")
             Terminal.getInput(any())
-            Terminal.getInput()
             Terminal.printMessage("Ok, bye!")
         }
+    }
+
+    @Test
+    internal fun `should run new session if player wants to replay`() {
+        every { testGame["runSession"]() } returns Unit
+        every { Terminal.getInput(any()) } returnsMany listOf("Y", "Y", "N")
+        testGame.start()
+        verify(exactly = 3) { testGame["runSession"]() }
+
     }
 
     @Nested
@@ -158,7 +166,7 @@ internal class GameTest {
             testGame.generateAiInput()
             testGame.evaluateWinner(any(), any())
             testGame.printWinner(any())
-            testGame["setNextPredictor"]
+            testGame["setNextPredictor"]()
         }
     }
 
@@ -166,7 +174,7 @@ internal class GameTest {
     internal fun `should keep running round until winner is found`() {
         every { testGame.evaluateWinner(any(), any()) } returnsMany listOf(null, null, PLAYER.HUMAN)
         every { Terminal.getInput() } returnsMany listOf("CC4", "CC", "OO3")
-        every { Terminal.getInput(any()) } returns ""
+        every { Terminal.getInput(any()) } returns "N"
         testGame.start()
         verify(exactly = 3) { testGame.runRound() }
     }

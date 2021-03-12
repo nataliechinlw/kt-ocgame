@@ -4,10 +4,17 @@ class Game {
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
-        runSession()
-        Terminal.printMessage("Do you want to play again?")
-        Terminal.getInput(::yesNo)
+        while (true) {
+            winner = null
+            currentPredictor = PLAYER.HUMAN
+            runSession()
+            Terminal.printMessage("Do you want to play again?")
+            val replayInput = Terminal.getInput(::yesNo)
+            if (replayInput == "N")
+                break
+        }
         Terminal.printMessage("Ok, bye!")
+
     }
 
     private fun runSession() {
