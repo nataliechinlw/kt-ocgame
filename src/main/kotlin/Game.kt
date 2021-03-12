@@ -6,7 +6,7 @@ class Game {
         Terminal.printMessage("Welcome to the game!")
         runSession()
         Terminal.printMessage("Do you want to play again?")
-        Terminal.getInput()
+        Terminal.getInput(::yesNo)
         Terminal.printMessage("Ok, bye!")
     }
 
@@ -62,6 +62,10 @@ class Game {
             PLAYER.AI -> PLAYER.HUMAN
             PLAYER.HUMAN -> PLAYER.AI
         }
+    }
+
+    companion object InputValidator {
+        fun yesNo(input: String) = Regex("[NY]").matches(input)
     }
 }
 

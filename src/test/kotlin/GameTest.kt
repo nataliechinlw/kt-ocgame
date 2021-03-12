@@ -1,9 +1,12 @@
+import Game.InputValidator.yesNo
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
@@ -54,6 +57,7 @@ internal class GameTest {
             Terminal.printMessage("Welcome to the game!")
             testGame["runSession"]
             Terminal.printMessage("Do you want to play again?")
+            Terminal.getInput(any())
             Terminal.getInput()
             Terminal.printMessage("Ok, bye!")
         }
@@ -162,6 +166,7 @@ internal class GameTest {
     internal fun `should keep running round until winner is found`() {
         every { testGame.evaluateWinner(any(), any()) } returnsMany listOf(null, null, PLAYER.HUMAN)
         every { Terminal.getInput() } returnsMany listOf("CC4", "CC", "OO3")
+        every { Terminal.getInput(any()) } returns ""
         testGame.start()
         verify(exactly = 3) { testGame.runRound() }
     }
@@ -185,5 +190,12 @@ internal class GameTest {
             testGame.printWinner(PLAYER.AI)
             verify { Terminal.printMessage("AI WINS!!") }
         }
+    }
+
+    @Test
+    internal fun `should validate yesNo responses`() {
+        assertTrue(Game.yesNo("Y"))
+        assertTrue(Game.yesNo("N"))
+        assertFalse(Game.yesNo("X"))
     }
 }
