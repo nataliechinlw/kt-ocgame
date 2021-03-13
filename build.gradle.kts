@@ -30,3 +30,6 @@ tasks.withType<KotlinCompile>() {
 application {
     mainClassName = "MainKt"
 }
+
+val run: JavaExec by tasks
+run.standardInput = System.`in`
