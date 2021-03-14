@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 internal class PlayerInputTest {
     private val testPlayer = PlayerInput("OO", false)
@@ -23,7 +24,8 @@ internal class PlayerInputTest {
 
     @Test
     internal fun `should get prediction`() {
-        assertEquals(4, testPlayer.getPrediction("OO4"))
+        assertEquals(4, PlayerInput("OO4", true).prediction)
+        assertNull(PlayerInput("OO", false).prediction)
     }
 
     @Test

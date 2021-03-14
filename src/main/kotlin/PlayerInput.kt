@@ -10,12 +10,8 @@ class PlayerInput(override val input: String, isPredictor: Boolean) : Input() {
 
     override val numberOfOpenHands = Regex("O").findAll(input).count()
     override val prediction = if (isPredictor) {
-        getPrediction(input)
+        input[2].toString().toInt()
     } else null
-
-    fun getPrediction(input: String): Int {
-        return input[2].toString().toInt()
-    }
 
     fun verifyInputWithPrediction(input: String) {
         val validInputPattern = """[OC][OC][0-4]""".toRegex()
