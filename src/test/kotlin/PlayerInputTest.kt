@@ -57,7 +57,7 @@ internal class PlayerInputTest {
     internal fun `should set number of open hands`() {
         val playerInput = PlayerInput("CC", false)
         assertEquals(0, playerInput.numberOfOpenHands)
-        assertEquals(0, playerInput.prediction)
+        assertEquals(null, playerInput.prediction)
     }
 
     @Test

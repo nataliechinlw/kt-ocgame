@@ -14,7 +14,6 @@ class Game {
                 break
         }
         Terminal.printMessage("Ok, bye!")
-
     }
 
     private fun runSession() {
@@ -23,7 +22,7 @@ class Game {
         }
     }
 
-    fun evaluateWinner(playerInput: PlayerInput, aiInput: AiInput): PLAYER? {
+    fun evaluateWinner(playerInput: Input, aiInput: Input): PLAYER? {
         val totalNumberOfOpenHands = playerInput.numberOfOpenHands + aiInput.numberOfOpenHands
         val prediction = when (currentPredictor) {
             PLAYER.HUMAN -> playerInput.prediction

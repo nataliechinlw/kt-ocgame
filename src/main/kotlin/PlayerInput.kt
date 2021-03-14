@@ -1,14 +1,17 @@
 import java.lang.Exception
 
-class PlayerInput(input: String, isPredictor: Boolean) {
+class PlayerInput(override val input: String, isPredictor: Boolean) : Input() {
     init {
         if (isPredictor)
             verifyInputWithPrediction(input)
         else
             verifyInputWithoutPrediction(input)
     }
-    val numberOfOpenHands = countOpenHands(input)
-    val prediction = if (isPredictor) { getPrediction(input) } else 0
+
+    override val numberOfOpenHands = countOpenHands(input)
+    override val prediction = if (isPredictor) {
+        getPrediction(input)
+    } else null
 
     fun countOpenHands(input: String): Int {
         val openHandPattern = """O""".toRegex()
