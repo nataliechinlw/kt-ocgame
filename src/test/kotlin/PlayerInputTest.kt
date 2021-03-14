@@ -15,10 +15,10 @@ internal class PlayerInputTest {
 
     @Test
     internal fun `should count number of open hands`() {
-        assertEquals(2, testPlayer.countOpenHands("OO4"))
-        assertEquals(1, testPlayer.countOpenHands("CO4"))
-        assertEquals(1, testPlayer.countOpenHands("OC4"))
-        assertEquals(0, testPlayer.countOpenHands("CC4"))
+        assertEquals(2, PlayerInput("OO4", true).numberOfOpenHands)
+        assertEquals(1, PlayerInput("CO4", true).numberOfOpenHands)
+        assertEquals(1, PlayerInput("OC4", true).numberOfOpenHands)
+        assertEquals(0, PlayerInput("CC4", true).numberOfOpenHands)
     }
 
     @Test
