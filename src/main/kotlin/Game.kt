@@ -36,7 +36,8 @@ class Game {
             PLAYER.AI -> "AI is the predictor, what is your input?"
         }
         Terminal.printMessage(message)
-        return PlayerInput.create(Terminal.getInput(), currentPredictor == PLAYER.HUMAN)
+        val inputValidator = if (currentPredictor == PLAYER.HUMAN) ::inputWithPrediction else :: inputWithoutPrediction
+        return PlayerInput.create(Terminal.getInput(inputValidator), currentPredictor == PLAYER.HUMAN)
     }
 
     fun generateAiInput(): AiInput {

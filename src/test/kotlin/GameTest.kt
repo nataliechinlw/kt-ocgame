@@ -3,9 +3,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 internal class GameTest {
     private val playerInput = mockkClass(PlayerInput::class)
@@ -35,6 +33,7 @@ internal class GameTest {
 
     @Test
     internal fun `should switch from HUMAN to AI as predictor after round`() {
+        every { Terminal.getInput(any()) } returns "OO3"
         testGame.currentPredictor = PLAYER.HUMAN
         testGame.runRound()
         assertEquals(PLAYER.AI, testGame.currentPredictor)
@@ -42,7 +41,7 @@ internal class GameTest {
 
     @Test
     internal fun `should switch from AI to HUMAN as predictor after round`() {
-        every { Terminal.getInput() } returns "OO"
+        every { Terminal.getInput(any()) } returns "OO"
         testGame.currentPredictor = PLAYER.AI
         testGame.runRound()
         assertEquals(PLAYER.HUMAN, testGame.currentPredictor)
@@ -116,23 +115,23 @@ internal class GameTest {
 
     @Test
     internal fun `should ask for input as predictor`() {
-        every { Terminal.getInput() } returns "OO2"
+        every { Terminal.getInput(any()) } returns "OO2"
         testGame.askForInput()
         verify {
             Terminal.printMessage("You are the predictor, what is your input?")
-            Terminal.getInput()
+            Terminal.getInput(any())
             PlayerInput.Companion.create("OO2", true)
         }
     }
 
     @Test
     internal fun `should ask for input not as predictor`() {
-        every { Terminal.getInput() } returns "OO"
+        every { Terminal.getInput(any()) } returns "OO"
         testGame.currentPredictor = PLAYER.AI
         testGame.askForInput()
         verify {
             Terminal.printMessage("AI is the predictor, what is your input?")
-            Terminal.getInput()
+            Terminal.getInput(any())
             PlayerInput.Companion.create("OO", false)
         }
     }
@@ -159,6 +158,7 @@ internal class GameTest {
 
     @Test
     internal fun `should run round in correct sequence`() {
+        every { Terminal.getInput(any()) } returns "OO3"
         testGame.runRound()
         verifySequence {
             testGame.runRound()
@@ -173,8 +173,7 @@ internal class GameTest {
     @Test
     internal fun `should keep running round until winner is found`() {
         every { testGame.evaluateWinner(any(), any()) } returnsMany listOf(null, null, PLAYER.HUMAN)
-        every { Terminal.getInput() } returnsMany listOf("CC4", "CC", "OO3")
-        every { Terminal.getInput(any()) } returns "N"
+        every { Terminal.getInput(any()) } returnsMany listOf("CC4", "CC", "OO3", "N")
         testGame.start()
         verify(exactly = 3) { testGame.runRound() }
     }
