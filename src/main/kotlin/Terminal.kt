@@ -9,11 +9,11 @@ object Terminal {
         }
     }
 
-    fun getInput(isValid: (String) -> Boolean): String {
+    fun getInput(isValid: (String) -> String?): String {
         while (true) {
             val input = getInput()
-            if (isValid(input))
-                return input
+            val errorMessage = isValid(input) ?: return input
+            printMessage("Bad input: $errorMessage")
         }
     }
 }

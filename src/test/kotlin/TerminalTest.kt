@@ -52,9 +52,9 @@ internal class TerminalTest {
 
     @Test
     internal fun `should use validator in getInput`() {
-        val dummyValidator: (String) -> Boolean = mockk()
+        val dummyValidator: (String) -> String? = mockk()
         val testInput = "input"
-        every { dummyValidator(testInput) } returns true
+        every { dummyValidator(testInput) } returns null
         mockUserInput(testInput)
         assertEquals(testInput, Terminal.getInput(dummyValidator))
         verify { dummyValidator(testInput) }

@@ -200,10 +200,13 @@ internal class GameTest {
         }
     }
 
-    @Test
-    internal fun `should validate yesNo responses`() {
-        assertTrue(Game.yesNo("Y"))
-        assertTrue(Game.yesNo("N"))
-        assertFalse(Game.yesNo("X"))
+    @Nested
+    inner class InputValidatorTests {
+        @Test
+        internal fun `should validate yesNo responses`() {
+            assertNull(Game.yesNo("Y"))
+            assertNull(Game.yesNo("N"))
+            assertEquals("input should be either Y or N", Game.yesNo("X"))
+        }
     }
 }

@@ -69,7 +69,7 @@ class Game {
     }
 
     companion object InputValidator {
-        fun yesNo(input: String) = Regex("[NY]").matches(input)
+        fun yesNo(input: String) = "input should be either Y or N".takeIf { !Regex("[NY]").matches(input) }
     }
 }
 
