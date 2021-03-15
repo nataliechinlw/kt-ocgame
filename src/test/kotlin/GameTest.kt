@@ -198,28 +198,4 @@ internal class GameTest {
             verify { Terminal.printMessage("AI WINS!!") }
         }
     }
-
-    @Nested
-    inner class InputValidatorTests {
-        @Test
-        internal fun `should validate yesNo responses`() {
-            assertNull(Game.yesNo("Y"))
-            assertNull(Game.yesNo("N"))
-            assertEquals("input should be either Y or N", Game.yesNo("X"))
-        }
-
-        @Test
-        internal fun `should validate inputWithPrediction responses`() {
-            assertNull(Game.inputWithPrediction("OO0"))
-            assertNull(Game.inputWithPrediction("CC4"))
-            assertEquals("correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand, followed by the prediction (0-4)", Game.inputWithPrediction("chicken"))
-        }
-
-        @Test
-        internal fun `should validate inputWithoutPrediction responses`() {
-            assertNull(Game.inputWithoutPrediction("OO"))
-            assertNull(Game.inputWithoutPrediction("CC"))
-            assertEquals("correct input should be of the form CC, where the first two letters indicate [O]pen or [C]losed state for each hand", Game.inputWithoutPrediction("CC2"))
-        }
-    }
 }
