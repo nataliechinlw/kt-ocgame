@@ -19,22 +19,22 @@ internal class GameTest {
     @Test
     internal fun `should start with HUMAN player as predictor and no winner in a new Game`() {
         val newGame = Game()
-        assertEquals(PLAYER.HUMAN, newGame.currentPredictor)
+        assertEquals(Player.HUMAN, newGame.currentPredictor)
         assertNull(newGame.winner)
     }
 
     @Test
     internal fun `should switch from HUMAN to AI as predictor after round`() {
-        testGame.currentPredictor = PLAYER.HUMAN
+        testGame.currentPredictor = Player.HUMAN
         testGame.setNextPredictor()
-        assertEquals(PLAYER.AI, testGame.currentPredictor)
+        assertEquals(Player.AI, testGame.currentPredictor)
     }
 
     @Test
     internal fun `should switch from AI to HUMAN as predictor after round`() {
-        testGame.currentPredictor = PLAYER.AI
+        testGame.currentPredictor = Player.AI
         testGame.setNextPredictor()
-        assertEquals(PLAYER.HUMAN, testGame.currentPredictor)
+        assertEquals(Player.HUMAN, testGame.currentPredictor)
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class GameTest {
 
     @Test
     internal fun `should keep running round until winner is found`() {
-        every { anyConstructed<Round>().winner } returnsMany listOf(null, null, PLAYER.HUMAN)
+        every { anyConstructed<Round>().winner } returnsMany listOf(null, null, Player.HUMAN)
         every { Terminal.getInput(any()) } returnsMany listOf("OO2", "CC", "OO1", "N")
         testGame.start()
         verify(exactly = 3) { anyConstructed<Round>().winner }

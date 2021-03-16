@@ -3,7 +3,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -20,7 +19,7 @@ internal class RoundTest {
     @Test
     internal fun `should run round in correct sequence`() {
         every { Terminal.getInput(any()) } returns "OO3"
-        val round = spyk(Round(PLAYER.HUMAN))
+        val round = spyk(Round(Player.HUMAN))
         verify {
             round["askForInput"]()
             round["generateAiInput"]()
@@ -32,7 +31,7 @@ internal class RoundTest {
     @Test
     internal fun `should ask for input as predictor`() {
         every { Terminal.getInput(any()) } returns "OO2"
-        spyk(Round(PLAYER.HUMAN))
+        spyk(Round(Player.HUMAN))
         verify {
             Terminal.printMessage("You are the predictor, what is your input?")
             Terminal.getInput(any())
@@ -43,7 +42,7 @@ internal class RoundTest {
     @Test
     internal fun `should ask for input not as predictor`() {
         every { Terminal.getInput(any()) } returns "OO"
-        spyk(Round(PLAYER.AI))
+        spyk(Round(Player.AI))
         verify {
             Terminal.printMessage("AI is the predictor, what is your input?")
             Terminal.getInput(any())
@@ -54,7 +53,7 @@ internal class RoundTest {
     @Test
     internal fun `should generate AI input not as predictor`() {
         every { Terminal.getInput(any()) } returns "OO2"
-        spyk(Round(PLAYER.HUMAN))
+        spyk(Round(Player.HUMAN))
         verify {
             AiInput.Companion.create(false)
             Terminal.printMessage(any())
@@ -64,7 +63,7 @@ internal class RoundTest {
     @Test
     internal fun `should generate AI input as predictor`() {
         every { Terminal.getInput(any()) } returns "OO"
-        spyk(Round(PLAYER.AI))
+        spyk(Round(Player.AI))
         verify {
             AiInput.Companion.create(true)
             Terminal.printMessage(any())
@@ -90,7 +89,7 @@ internal class RoundTest {
             every { playerInput.prediction } returns 1
             every { aiInput.numberOfOpenHands } returns 1
 
-            assertNull(Round(PLAYER.HUMAN).winner)
+            assertNull(Round(Player.HUMAN).winner)
         }
 
         @Test
@@ -100,7 +99,7 @@ internal class RoundTest {
             every { playerInput.prediction } returns 2
             every { aiInput.numberOfOpenHands } returns 1
 
-            assertEquals(PLAYER.HUMAN, Round(PLAYER.HUMAN).evaluateWinner(playerInput, aiInput))
+            assertEquals(Player.HUMAN, Round(Player.HUMAN).evaluateWinner(playerInput, aiInput))
         }
 
         @Test
@@ -110,7 +109,7 @@ internal class RoundTest {
             every { aiInput.numberOfOpenHands } returns 1
             every { aiInput.prediction } returns 1
 
-            assertNull(Round(PLAYER.AI).evaluateWinner(playerInput, aiInput))
+            assertNull(Round(Player.AI).evaluateWinner(playerInput, aiInput))
         }
 
         @Test
@@ -120,7 +119,7 @@ internal class RoundTest {
             every { aiInput.numberOfOpenHands } returns 1
             every { aiInput.prediction } returns 2
 
-            assertEquals(PLAYER.AI, Round(PLAYER.AI).evaluateWinner(playerInput, aiInput))
+            assertEquals(Player.AI, Round(Player.AI).evaluateWinner(playerInput, aiInput))
         }
     }
 
@@ -130,7 +129,7 @@ internal class RoundTest {
         @BeforeEach
         internal fun setUp() {
             every { Terminal.getInput(any()) } returns "OC1"
-            round = Round(PLAYER.HUMAN)
+            round = Round(Player.HUMAN)
         }
 
         @Test
@@ -141,13 +140,13 @@ internal class RoundTest {
 
         @Test
         internal fun `should print user winner if HUMAN winner`() {
-            round.printWinner(PLAYER.HUMAN)
+            round.printWinner(Player.HUMAN)
             verify { Terminal.printMessage("You WIN!!") }
         }
 
         @Test
         internal fun `should print AI winner if AI winner`() {
-            round.printWinner(PLAYER.AI)
+            round.printWinner(Player.AI)
             verify { Terminal.printMessage("AI WINS!!") }
         }
     }

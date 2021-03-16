@@ -1,14 +1,14 @@
 import InputValidator.yesNo
 
 class Game {
-    var currentPredictor: PLAYER = PLAYER.HUMAN
-    var winner: PLAYER? = null
+    var currentPredictor: Player = Player.HUMAN
+    var winner: Player? = null
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
         while (true) {
             winner = null
-            currentPredictor = PLAYER.HUMAN
+            currentPredictor = Player.HUMAN
             runSession()
             Terminal.printMessage("Do you want to play again?")
             val replayInput = Terminal.getInput(::yesNo)
@@ -27,13 +27,8 @@ class Game {
 
     fun setNextPredictor() {
         currentPredictor = when (currentPredictor) {
-            PLAYER.AI -> PLAYER.HUMAN
-            PLAYER.HUMAN -> PLAYER.AI
+            Player.AI -> Player.HUMAN
+            Player.HUMAN -> Player.AI
         }
     }
-}
-
-enum class PLAYER {
-    HUMAN,
-    AI
 }
