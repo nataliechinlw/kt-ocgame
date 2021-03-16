@@ -24,7 +24,7 @@ internal class RoundTest {
             round["askForInput"]()
             round["generateAiInput"]()
             round.evaluateWinner(any(), any())
-            round.printWinner(any())
+            round.printWinner()
         }
     }
 

@@ -8,7 +8,7 @@ class Round(private val currentPredictor: Player) {
         val playerInput = askForInput()
         val aiInput = generateAiInput()
         winner = evaluateWinner(playerInput, aiInput)
-        printWinner(winner)
+        printWinner()
     }
 
     private fun askForInput(): PlayerInput {
@@ -36,6 +36,5 @@ class Round(private val currentPredictor: Player) {
         return if (totalNumberOfOpenHands != prediction) null else currentPredictor
     }
 
-    fun printWinner(winner: Player?) =
-        Terminal.printMessage(winner?.getWinnerMessage() ?: "No winner.")
+    fun printWinner() = Terminal.printMessage(winner?.getWinnerMessage() ?: "No winner.")
 }
