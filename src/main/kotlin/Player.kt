@@ -1,4 +1,10 @@
 enum class Player {
-    HUMAN,
-    AI
+    HUMAN {
+        override fun getWinnerMessage() = "You WIN!!"
+    },
+    AI {
+        override fun getWinnerMessage() = "AI WINS!!"
+    };
+
+    abstract fun getWinnerMessage(): String
 }

@@ -3,6 +3,7 @@ import InputValidator.inputWithoutPrediction
 
 class Round(private val currentPredictor: Player) {
     var winner: Player?
+
     init {
         val playerInput = askForInput()
         val aiInput = generateAiInput()
@@ -35,11 +36,6 @@ class Round(private val currentPredictor: Player) {
         return if (totalNumberOfOpenHands != prediction) null else currentPredictor
     }
 
-    fun printWinner(winner: Player?) = Terminal.printMessage(
-        when (winner) {
-            Player.HUMAN -> "You WIN!!"
-            Player.AI -> "AI WINS!!"
-            null -> "No winner."
-        }
-    )
+    fun printWinner(winner: Player?) =
+        Terminal.printMessage(winner?.getWinnerMessage() ?: "No winner.")
 }

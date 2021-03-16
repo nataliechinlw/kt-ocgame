@@ -122,32 +122,4 @@ internal class RoundTest {
             assertEquals(Player.AI, Round(Player.AI).evaluateWinner(playerInput, aiInput))
         }
     }
-
-    @Nested
-    inner class PrintWinnerTest {
-        lateinit var round: Round
-        @BeforeEach
-        internal fun setUp() {
-            every { Terminal.getInput(any()) } returns "OC1"
-            round = Round(Player.HUMAN)
-        }
-
-        @Test
-        internal fun `should print no winner if null winner`() {
-            round.printWinner(null)
-            verify { Terminal.printMessage("No winner.") }
-        }
-
-        @Test
-        internal fun `should print user winner if HUMAN winner`() {
-            round.printWinner(Player.HUMAN)
-            verify { Terminal.printMessage("You WIN!!") }
-        }
-
-        @Test
-        internal fun `should print AI winner if AI winner`() {
-            round.printWinner(Player.AI)
-            verify { Terminal.printMessage("AI WINS!!") }
-        }
-    }
 }

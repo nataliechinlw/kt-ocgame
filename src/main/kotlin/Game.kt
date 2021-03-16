@@ -3,6 +3,7 @@ import InputValidator.yesNo
 class Game {
     var currentPredictor: Player = Player.HUMAN
     var winner: Player? = null
+    val players = listOf(Player.HUMAN, Player.AI)
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
@@ -26,6 +27,7 @@ class Game {
     }
 
     fun setNextPredictor() {
+//        players.
         currentPredictor = when (currentPredictor) {
             Player.AI -> Player.HUMAN
             Player.HUMAN -> Player.AI
