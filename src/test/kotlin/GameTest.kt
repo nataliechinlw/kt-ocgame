@@ -18,7 +18,6 @@ internal class GameTest {
         mockkObject(PlayerInput.Companion)
         mockkObject(AiInput.Companion)
         every { Terminal.printMessage(any()) } just runs
-        every { Terminal.getInput() } returns "OO3"
         every { Terminal.getInput(any()) } returns "N"
         every { anyConstructed<PlayerInput>().numberOfOpenHands } returns 1
         every { anyConstructed<PlayerInput>().prediction } returns 1
