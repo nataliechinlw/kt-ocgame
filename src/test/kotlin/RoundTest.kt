@@ -23,7 +23,7 @@ internal class RoundTest {
         verify {
             round["askForInput"]()
             round["generateAiInput"]()
-            round.evaluateWinner(any(), any())
+            round["evaluateWinner"](any(), any())
             round.printWinner()
         }
     }
@@ -105,7 +105,7 @@ internal class RoundTest {
             every { playerInput.prediction } returns 2
             every { aiInput.numberOfOpenHands } returns 1
 
-            assertEquals(Player.HUMAN, Round(Player.HUMAN).evaluateWinner(playerInput, aiInput))
+            assertEquals(Player.HUMAN, Round(Player.HUMAN).winner)
         }
 
         @Test
@@ -115,7 +115,7 @@ internal class RoundTest {
             every { aiInput.numberOfOpenHands } returns 1
             every { aiInput.prediction } returns 1
 
-            assertNull(Round(Player.AI).evaluateWinner(playerInput, aiInput))
+            assertNull(Round(Player.AI).winner)
         }
 
         @Test
@@ -125,7 +125,7 @@ internal class RoundTest {
             every { aiInput.numberOfOpenHands } returns 1
             every { aiInput.prediction } returns 2
 
-            assertEquals(Player.AI, Round(Player.AI).evaluateWinner(playerInput, aiInput))
+            assertEquals(Player.AI, Round(Player.AI).winner)
         }
     }
 }

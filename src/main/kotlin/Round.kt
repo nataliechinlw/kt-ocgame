@@ -24,7 +24,7 @@ class Round(private val currentPredictor: Player) {
         return aiInput
     }
 
-    fun evaluateWinner(playerInput: Input, aiInput: Input): Player? {
+    private fun evaluateWinner(playerInput: Input, aiInput: Input): Player? {
         val totalNumberOfOpenHands = playerInput.numberOfOpenHands + aiInput.numberOfOpenHands
         val prediction = when (currentPredictor) {
             Player.HUMAN -> playerInput.prediction
