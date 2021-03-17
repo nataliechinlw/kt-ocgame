@@ -7,7 +7,11 @@ class Round(private val currentPredictor: Player) {
     init {
         val playerInput = askForInput()
         val aiInput = generateAiInput()
-        winner = evaluateWinner(playerInput, aiInput)
+        val prediction = when (currentPredictor) {
+            Player.HUMAN -> playerInput.prediction
+            Player.AI -> aiInput.prediction
+        }
+        winner = evaluateWinner(listOf(playerInput, aiInput), prediction!!)
         printWinner()
     }
 
@@ -24,13 +28,9 @@ class Round(private val currentPredictor: Player) {
         return aiInput
     }
 
-    private fun evaluateWinner(playerInput: Input, aiInput: Input): Player? {
-        val totalNumberOfOpenHands = playerInput.numberOfOpenHands + aiInput.numberOfOpenHands
-        val prediction = when (currentPredictor) {
-            Player.HUMAN -> playerInput.prediction
-            Player.AI -> aiInput.prediction
-        }
-        return if (totalNumberOfOpenHands != prediction) null else currentPredictor
+    private fun evaluateWinner(inputs: List<Input>, prediction: Int): Player? {
+        val totalNumberOfOpenHands = inputs.sumOf { it.numberOfOpenHands }
+        return if (totalNumberOfOpenHands == prediction) currentPredictor else null
     }
 
     fun printWinner() = Terminal.printMessage(winner?.getWinnerMessage() ?: "No winner.")
