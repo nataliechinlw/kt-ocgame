@@ -19,6 +19,7 @@ internal class GameTest {
     @Test
     internal fun `should start with HUMAN player as predictor and no winner in a new Game`() {
         val newGame = Game()
+        newGame.setNextPredictor()
         assertEquals(Player.HUMAN, newGame.currentPredictor)
         assertNull(newGame.winner)
     }
@@ -27,13 +28,13 @@ internal class GameTest {
     internal fun `should switch between AI and HUMAN as predictor after each round`() {
         val newGame = Game()
         newGame.setNextPredictor()
-        assertEquals(Player.AI, newGame.currentPredictor)
-        newGame.setNextPredictor()
         assertEquals(Player.HUMAN, newGame.currentPredictor)
         newGame.setNextPredictor()
         assertEquals(Player.AI, newGame.currentPredictor)
         newGame.setNextPredictor()
         assertEquals(Player.HUMAN, newGame.currentPredictor)
+        newGame.setNextPredictor()
+        assertEquals(Player.AI, newGame.currentPredictor)
     }
 
     @Test
