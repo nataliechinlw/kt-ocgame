@@ -19,8 +19,7 @@ internal class GameTest {
     @Test
     internal fun `should start with HUMAN player as predictor and no winner in a new Game`() {
         val newGame = Game()
-        newGame.setNextPredictor()
-        assertEquals(Player.HUMAN, newGame.currentPredictor)
+        assertEquals(Player.HUMAN, newGame.currentPredictor())
         assertNull(newGame.winner)
     }
 
@@ -28,13 +27,13 @@ internal class GameTest {
     internal fun `should switch between AI and HUMAN as predictor after each round`() {
         val newGame = Game()
         newGame.setNextPredictor()
-        assertEquals(Player.HUMAN, newGame.currentPredictor)
+        assertEquals(Player.AI, newGame.currentPredictor())
         newGame.setNextPredictor()
-        assertEquals(Player.AI, newGame.currentPredictor)
+        assertEquals(Player.HUMAN, newGame.currentPredictor())
         newGame.setNextPredictor()
-        assertEquals(Player.HUMAN, newGame.currentPredictor)
+        assertEquals(Player.AI, newGame.currentPredictor())
         newGame.setNextPredictor()
-        assertEquals(Player.AI, newGame.currentPredictor)
+        assertEquals(Player.HUMAN, newGame.currentPredictor())
     }
 
     @Test
@@ -43,8 +42,10 @@ internal class GameTest {
         every { Terminal.getInput() } returns "N"
         testGame.start()
         verifySequence {
+            testGame.start()
             Terminal.printMessage("Welcome to the game!")
-            testGame["runSession"]
+            testGame.resetPlayers()
+            testGame["runSession"]()
             Terminal.printMessage("Do you want to play again?")
             Terminal.getInput(any())
             Terminal.printMessage("Ok, bye!")
@@ -66,5 +67,14 @@ internal class GameTest {
         every { Terminal.getInput(any()) } returnsMany listOf("OO2", "CC", "OO1", "N")
         testGame.start()
         verify(exactly = 3) { anyConstructed<Round>().winner }
+    }
+
+    @Test
+    internal fun `should reset players`() {
+        val game = Game()
+        assertEquals(listOf(Player.HUMAN, Player.AI), game.players)
+        game.setNextPredictor()
+        game.resetPlayers()
+        assertEquals(listOf(Player.HUMAN, Player.AI), game.players)
     }
 }
