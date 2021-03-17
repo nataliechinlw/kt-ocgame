@@ -1,9 +1,10 @@
 import InputValidator.yesNo
 
 class Game {
+    private val players = listOf(Player.HUMAN, Player.AI)
     var winner: Player? = null
-    var players = listOf(Player.HUMAN, Player.AI).toMutableList()
-    fun currentPredictor() = players.elementAt(0)
+    var predictorQueue = players.toMutableList()
+    fun currentPredictor() = predictorQueue.elementAt(0)
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
@@ -27,11 +28,11 @@ class Game {
     }
 
     fun setNextPredictor() {
-        val nextPlayer = players.removeAt(0)
-        players.add(nextPlayer)
+        val nextPlayer = predictorQueue.removeAt(0)
+        predictorQueue.add(nextPlayer)
     }
 
     fun resetPlayers() {
-        players = listOf(Player.HUMAN, Player.AI).toMutableList()
+        predictorQueue = players.toMutableList()
     }
 }

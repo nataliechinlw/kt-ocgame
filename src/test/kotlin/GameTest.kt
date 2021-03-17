@@ -72,9 +72,9 @@ internal class GameTest {
     @Test
     internal fun `should reset players`() {
         val game = Game()
-        assertEquals(listOf(Player.HUMAN, Player.AI), game.players)
+        assertEquals(listOf(Player.HUMAN, Player.AI), game.predictorQueue)
         game.setNextPredictor()
         game.resetPlayers()
-        assertEquals(listOf(Player.HUMAN, Player.AI), game.players)
+        assertEquals(listOf(Player.HUMAN, Player.AI), game.predictorQueue)
     }
 }
