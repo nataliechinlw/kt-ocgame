@@ -12,10 +12,7 @@ class Round(private val currentPredictor: Player) {
     }
 
     private fun askForInput(): PlayerInput {
-        val message = when (currentPredictor) {
-            Player.HUMAN -> "You are the predictor, what is your input?"
-            Player.AI -> "AI is the predictor, what is your input?"
-        }
+        val message = currentPredictor.getAskForInputMessage()
         Terminal.printMessage(message)
         val inputValidator = if (currentPredictor == Player.HUMAN) ::inputWithPrediction else ::inputWithoutPrediction
         return PlayerInput.create(Terminal.getInput(inputValidator), currentPredictor == Player.HUMAN)

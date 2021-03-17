@@ -30,10 +30,13 @@ internal class RoundTest {
 
     @Test
     internal fun `should ask for input as predictor`() {
+        mockkObject(Player.HUMAN)
+        every { Player.HUMAN.getAskForInputMessage() } returns "mock message"
         every { Terminal.getInput(any()) } returns "OO2"
+
         spyk(Round(Player.HUMAN))
         verify {
-            Terminal.printMessage("You are the predictor, what is your input?")
+            Terminal.printMessage("mock message")
             Terminal.getInput(any())
             PlayerInput.Companion.create("OO2", true)
         }
@@ -41,10 +44,13 @@ internal class RoundTest {
 
     @Test
     internal fun `should ask for input not as predictor`() {
+        mockkObject(Player.AI)
+        every { Player.AI.getAskForInputMessage() } returns "mock message"
         every { Terminal.getInput(any()) } returns "OO"
+
         spyk(Round(Player.AI))
         verify {
-            Terminal.printMessage("AI is the predictor, what is your input?")
+            Terminal.printMessage("mock message")
             Terminal.getInput(any())
             PlayerInput.Companion.create("OO", false)
         }
