@@ -24,17 +24,16 @@ internal class GameTest {
     }
 
     @Test
-    internal fun `should switch from HUMAN to AI as predictor after round`() {
-        testGame.currentPredictor = Player.HUMAN
-        testGame.setNextPredictor()
-        assertEquals(Player.AI, testGame.currentPredictor)
-    }
-
-    @Test
-    internal fun `should switch from AI to HUMAN as predictor after round`() {
-        testGame.currentPredictor = Player.AI
-        testGame.setNextPredictor()
-        assertEquals(Player.HUMAN, testGame.currentPredictor)
+    internal fun `should switch between AI and HUMAN as predictor after each round`() {
+        val newGame = Game()
+        newGame.setNextPredictor()
+        assertEquals(Player.AI, newGame.currentPredictor)
+        newGame.setNextPredictor()
+        assertEquals(Player.HUMAN, newGame.currentPredictor)
+        newGame.setNextPredictor()
+        assertEquals(Player.AI, newGame.currentPredictor)
+        newGame.setNextPredictor()
+        assertEquals(Player.HUMAN, newGame.currentPredictor)
     }
 
     @Test
