@@ -10,9 +10,8 @@ internal class RoundTest {
     internal fun setUp() {
         unmockkAll()
         mockkObject(Terminal)
-        mockkObject(PlayerInput.Companion)
-        mockkObject(AiInput.Companion)
         mockkObject(Player.HUMAN)
+        mockkObject(Player.AI)
     }
 
     @Test
@@ -20,8 +19,9 @@ internal class RoundTest {
         every { Terminal.getInput(any()) } returns "OO3"
         Round(Player.HUMAN)
 
-        verify {
+        verifyOrder {
             Player.HUMAN.generateInput(Player.HUMAN)
+            Player.AI.generateInput(Player.HUMAN)
             AiInput.Companion.create(false)
         }
     }
@@ -53,9 +53,8 @@ internal class RoundTest {
 
         @BeforeEach
         internal fun setUp() {
-            every { aiInput.input } returns "Mock AI Input"
-            every { AiInput.Companion.create(any()) } returns aiInput
-            every { Player.HUMAN.generateInput(Player.HUMAN) } returns playerInput
+            every { Player.AI.generateInput(any()) } returns aiInput
+            every { Player.HUMAN.generateInput(any()) } returns playerInput
         }
 
         @Test
