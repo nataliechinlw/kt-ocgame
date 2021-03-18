@@ -37,7 +37,7 @@ internal class InputValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9])
+    @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99])
     internal fun `should return null on positiveInteger with valid integers`(input: Int) {
         assertNull(positiveInteger(input.toString()))
     }
