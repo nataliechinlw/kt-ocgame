@@ -17,32 +17,11 @@ internal class RoundTest {
     @Test
     internal fun `should run round in correct sequence`() {
         every { Terminal.getInput(any()) } returns "OO3"
-        Round(Player.HUMAN)
+        Round(Player.HUMAN, listOf(Player.AI,Player.HUMAN))
 
         verifyOrder {
-            Player.HUMAN.generateInput(Player.HUMAN)
             Player.AI.generateInput(Player.HUMAN)
-            AiInput.Companion.create(false)
-        }
-    }
-
-    @Test
-    internal fun `should generate AI input not as predictor`() {
-        every { Terminal.getInput(any()) } returns "OO2"
-        spyk(Round(Player.HUMAN))
-        verify {
-            AiInput.Companion.create(false)
-            Terminal.printMessage(any())
-        }
-    }
-
-    @Test
-    internal fun `should generate AI input as predictor`() {
-        every { Terminal.getInput(any()) } returns "OO"
-        spyk(Round(Player.AI))
-        verify {
-            AiInput.Companion.create(true)
-            Terminal.printMessage(any())
+            Player.HUMAN.generateInput(Player.HUMAN)
         }
     }
 
@@ -55,6 +34,8 @@ internal class RoundTest {
         internal fun setUp() {
             every { Player.AI.generateInput(any()) } returns aiInput
             every { Player.HUMAN.generateInput(any()) } returns playerInput
+            every { playerInput.player } returns Player.HUMAN
+            every { aiInput.player } returns Player.AI
         }
 
         @Test

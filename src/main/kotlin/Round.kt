@@ -1,14 +1,10 @@
-class Round(private val currentPredictor: Player) {
+class Round(private val currentPredictor: Player, players: List<Player> = listOf(Player.HUMAN, Player.AI)) {
     var winner: Player? = null
 
     init {
-        val playerInput = Player.HUMAN.generateInput(currentPredictor)
-        val aiInput = Player.AI.generateInput(currentPredictor)
-        val prediction = when (currentPredictor) {
-            Player.HUMAN -> playerInput.prediction
-            Player.AI -> aiInput.prediction
-        }
-        winner = evaluateWinner(listOf(playerInput, aiInput), prediction!!)
+        val inputs = players.map{ it.generateInput(currentPredictor) }
+        val prediction = inputs.find{ it.player == currentPredictor }!!.prediction
+        winner = evaluateWinner(inputs, prediction!!)
         printWinner()
     }
 
