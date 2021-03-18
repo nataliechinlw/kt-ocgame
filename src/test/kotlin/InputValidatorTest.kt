@@ -13,14 +13,14 @@ internal class InputValidatorTest {
     internal fun `should validate yesNo responses`() {
         assertNull(yesNo("Y"))
         assertNull(yesNo("N"))
-        kotlin.test.assertEquals("input should be either Y or N", yesNo("X"))
+        assertEquals("input should be either Y or N", yesNo("X"))
     }
 
     @Test
     internal fun `should validate inputWithPrediction responses`() {
         assertNull(inputWithPrediction("OO0"))
         assertNull(inputWithPrediction("CC4"))
-        kotlin.test.assertEquals(
+        assertEquals(
             "correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand, followed by the prediction (0-4)",
             inputWithPrediction("chicken")
         )
@@ -30,7 +30,7 @@ internal class InputValidatorTest {
     internal fun `should validate inputWithoutPrediction responses`() {
         assertNull(inputWithoutPrediction("OO"))
         assertNull(inputWithoutPrediction("CC"))
-        kotlin.test.assertEquals(
+        assertEquals(
             "correct input should be of the form CC, where the first two letters indicate [O]pen or [C]losed state for each hand",
             inputWithoutPrediction("CC2")
         )
