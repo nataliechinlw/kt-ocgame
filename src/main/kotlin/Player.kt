@@ -18,12 +18,15 @@ enum class Player {
     AI {
         override fun getWinnerMessage() = "AI WINS!!"
         override fun getAskForInputMessage() = "AI is the predictor$ASK_FOR_INPUT"
+        override fun generateInput(currentPredictor: Player): Input {
+            val aiInput = AiInput.create(currentPredictor == AI)
+            Terminal.printMessage("AI: ${aiInput.input}")
+            return aiInput
+        }
     };
 
     abstract fun getWinnerMessage(): String
     abstract fun getAskForInputMessage(): String
-    open fun generateInput(currentPredictor: Player): Input {
-        return AiInput()
-    }
+    abstract fun generateInput(currentPredictor: Player): Input
 
 }
