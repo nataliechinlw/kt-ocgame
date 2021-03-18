@@ -8,6 +8,7 @@ class Game {
 
     fun start() {
         Terminal.printMessage("Welcome to the game!")
+        Terminal.printMessage("What is your target score?")
         while (true) {
             winner = null
             resetPlayers()

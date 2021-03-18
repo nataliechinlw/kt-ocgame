@@ -44,6 +44,7 @@ internal class GameTest {
         verifySequence {
             testGame.start()
             Terminal.printMessage("Welcome to the game!")
+            Terminal.printMessage("What is your target score?")
             testGame.resetPlayers()
             testGame["runSession"]()
             Terminal.printMessage("Do you want to play again?")
