@@ -9,5 +9,5 @@ object InputValidator {
         "correct input should be of the form CC, where the first two letters indicate [O]pen or [C]losed state for each hand".takeIf {
             !Regex("[OC][OC]").matches(input)
         }
-    fun positiveInteger(input: String) = "input should be a positive integer".takeIf { !Regex("[1-9]").matches(input) }
+    fun positiveInteger(input: String) = "input should be a positive integer that is less than 100".takeIf { !Regex("[1-9]").matches(input) }
 }

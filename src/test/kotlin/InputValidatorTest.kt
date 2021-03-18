@@ -5,6 +5,7 @@ import InputValidator.yesNo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 internal class InputValidatorTest {
@@ -37,7 +38,13 @@ internal class InputValidatorTest {
 
     @ParameterizedTest
     @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9])
-    internal fun `should validate positiveInteger responses`(input: Int) {
+    internal fun `should return null on positiveInteger with valid integers`(input: Int) {
         assertNull(positiveInteger(input.toString()))
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["0", "x", "-1", "100"])
+    internal fun `should return error message on positiveInteger with invalid input`(input: String) {
+        assertEquals("input should be a positive integer that is less than 100", positiveInteger(input))
     }
 }
