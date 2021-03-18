@@ -1,11 +1,8 @@
-import InputValidator.inputWithPrediction
-import InputValidator.inputWithoutPrediction
-
 class Round(private val currentPredictor: Player) {
-    var winner: Player?
+    var winner: Player? = null
 
     init {
-        val playerInput = askForInput()
+        val playerInput = Player.HUMAN.generateInput(currentPredictor)
         val aiInput = generateAiInput()
         val prediction = when (currentPredictor) {
             Player.HUMAN -> playerInput.prediction
@@ -13,13 +10,6 @@ class Round(private val currentPredictor: Player) {
         }
         winner = evaluateWinner(listOf(playerInput, aiInput), prediction!!)
         printWinner()
-    }
-
-    private fun askForInput(): PlayerInput {
-        val message = currentPredictor.getAskForInputMessage()
-        Terminal.printMessage(message)
-        val inputValidator = if (currentPredictor == Player.HUMAN) ::inputWithPrediction else ::inputWithoutPrediction
-        return PlayerInput.create(Terminal.getInput(inputValidator), currentPredictor == Player.HUMAN)
     }
 
     private fun generateAiInput(): AiInput {

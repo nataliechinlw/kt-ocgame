@@ -1,6 +1,5 @@
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -13,46 +12,17 @@ internal class RoundTest {
         mockkObject(Terminal)
         mockkObject(PlayerInput.Companion)
         mockkObject(AiInput.Companion)
+        mockkObject(Player.HUMAN)
     }
 
-    @Disabled
     @Test
     internal fun `should run round in correct sequence`() {
         every { Terminal.getInput(any()) } returns "OO3"
-        val round = spyk(Round(Player.HUMAN))
+        Round(Player.HUMAN)
+
         verify {
-            round["askForInput"]()
-            round["generateAiInput"]()
-            round["evaluateWinner"](any(), any())
-            round.printWinner()
-        }
-    }
-
-    @Test
-    internal fun `should ask for input as predictor`() {
-        mockkObject(Player.HUMAN)
-        every { Player.HUMAN.getAskForInputMessage() } returns "mock message"
-        every { Terminal.getInput(any()) } returns "OO2"
-
-        spyk(Round(Player.HUMAN))
-        verify {
-            Terminal.printMessage("mock message")
-            Terminal.getInput(any())
-            PlayerInput.Companion.create("OO2", true)
-        }
-    }
-
-    @Test
-    internal fun `should ask for input not as predictor`() {
-        mockkObject(Player.AI)
-        every { Player.AI.getAskForInputMessage() } returns "mock message"
-        every { Terminal.getInput(any()) } returns "OO"
-
-        spyk(Round(Player.AI))
-        verify {
-            Terminal.printMessage("mock message")
-            Terminal.getInput(any())
-            PlayerInput.Companion.create("OO", false)
+            Player.HUMAN.generateInput(Player.HUMAN)
+            AiInput.Companion.create(false)
         }
     }
 
@@ -84,8 +54,8 @@ internal class RoundTest {
         @BeforeEach
         internal fun setUp() {
             every { aiInput.input } returns "Mock AI Input"
-            every { PlayerInput.Companion.create(any(), any()) } returns playerInput
             every { AiInput.Companion.create(any()) } returns aiInput
+            every { Player.HUMAN.generateInput(Player.HUMAN) } returns playerInput
         }
 
         @Test
