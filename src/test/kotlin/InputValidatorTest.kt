@@ -10,11 +10,19 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 internal class InputValidatorTest {
-    @Test
-    internal fun `should validate yesNo responses`() {
-        assertNull(yesNo("Y"))
-        assertNull(yesNo("N"))
-        assertEquals("input should be either Y or N", yesNo("X"))
+    @Nested
+    inner class YesNoTests {
+        @ParameterizedTest
+        @ValueSource(strings = ["Y", "N"])
+        internal fun `should return null on yesNo with valid responses`(input: String) {
+            assertNull(yesNo(input))
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = ["A", "X", "", "chicken"])
+        internal fun `should return error message on yesNo with valid responses`(input: String) {
+            assertEquals("input should be either Y or N", yesNo(input))
+        }
     }
 
     @Test
