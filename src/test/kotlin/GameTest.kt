@@ -5,6 +5,8 @@ import InputValidator.yesNo
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -84,5 +86,20 @@ internal class GameTest {
         game.setNextPredictor()
         game.resetPlayers()
         assertEquals(listOf(Player.HUMAN, Player.AI), game.predictorQueue)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [2, 5, 10])
+    internal fun `should run session twice`(targetScore: Int) {
+        every { Terminal.getInput(::positiveInteger) } returns targetScore.toString()
+        every { testGame["runSession"]() } answers {
+            testGame.winner = Player.HUMAN
+            Unit
+        }
+
+        testGame.start()
+        verify(exactly = targetScore) {
+            testGame["runSession"]()
+        }
     }
 }

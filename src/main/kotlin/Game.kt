@@ -10,11 +10,13 @@ class Game {
     fun start() {
         Terminal.printMessage("Welcome to the game!")
         Terminal.printMessage("What is your target score?")
-        Terminal.getInput(::positiveInteger)
+        val targetScore = Terminal.getInput(::positiveInteger).toInt()
         while (true) {
-            winner = null
-            resetPlayers()
-            runSession()
+            for (i in 0 until targetScore) {
+                winner = null
+                resetPlayers()
+                runSession()
+            }
             Terminal.printMessage("Do you want to play again?")
             val replayInput = Terminal.getInput(::yesNo)
             if (replayInput == "N")
