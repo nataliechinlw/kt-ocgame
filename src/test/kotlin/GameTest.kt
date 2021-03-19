@@ -53,7 +53,6 @@ internal class GameTest {
             Terminal.printMessage("Welcome to the game!")
             Terminal.printMessage("What is your target score?")
             Terminal.getInput(::positiveInteger)
-            testGame.resetPlayers()
             testGame["runSession"]()
             Terminal.printMessage("Do you want to play again?")
             Terminal.getInput(any())

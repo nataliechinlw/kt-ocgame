@@ -13,8 +13,6 @@ class Game {
         val targetScore = Terminal.getInput(::positiveInteger).toInt()
         while (true) {
             for (i in 0 until targetScore) {
-                winner = null
-                resetPlayers()
                 runSession()
             }
             Terminal.printMessage("Do you want to play again?")
@@ -26,6 +24,8 @@ class Game {
     }
 
     private fun runSession() {
+        winner = null
+        resetPlayers()
         while (winner == null) {
             winner = Round(currentPredictor()).winner
             setNextPredictor()
