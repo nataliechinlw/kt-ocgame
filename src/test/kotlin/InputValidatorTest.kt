@@ -3,7 +3,6 @@ import InputValidator.inputWithoutPrediction
 import InputValidator.positiveInteger
 import InputValidator.yesNo
 import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.test.assertEquals
@@ -25,14 +24,22 @@ internal class InputValidatorTest {
         }
     }
 
-    @Test
-    internal fun `should validate inputWithPrediction responses`() {
-        assertNull(inputWithPrediction("OO0"))
-        assertNull(inputWithPrediction("CC4"))
-        assertEquals(
-            "correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand, followed by the prediction (0-4)",
-            inputWithPrediction("chicken")
-        )
+    @Nested
+    inner class InputWithPredictionTests {
+        @ParameterizedTest
+        @ValueSource(strings = ["OO0", "OC0", "CO0", "CC0", "OO1", "OC1", "CO1", "CC1", "OO2", "OC2", "CO2", "CC2", "OO3", "OC3", "CO3", "CC3", "OO4", "OC4", "CO4", "CC4"])
+        internal fun `should return null on inputWithPrediction with valid inputs`(inputWithPrediction: String) {
+            assertNull(inputWithPrediction(inputWithPrediction))
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = ["OO", "OC", "CO", "CC", "", "chicken"])
+        internal fun `should return error message on inputWithPrediction with invalid inputs`(invalidInput: String) {
+            assertEquals(
+                "correct input should be of the form CC3, where the first two letters indicate [O]pen or [C]losed state for each hand, followed by the prediction (0-4)",
+                inputWithPrediction(invalidInput)
+            )
+        }
     }
 
     @Nested
