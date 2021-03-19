@@ -27,14 +27,26 @@ internal class InputValidatorTest {
         )
     }
 
-    @Test
-    internal fun `should validate inputWithoutPrediction responses`() {
-        assertNull(inputWithoutPrediction("OO"))
-        assertNull(inputWithoutPrediction("CC"))
-        assertEquals(
-            "correct input should be of the form CC, where the first two letters indicate [O]pen or [C]losed state for each hand",
-            inputWithoutPrediction("CC2")
-        )
+    @Nested
+    inner class InputWithoutPredictionTests {
+        @ParameterizedTest
+        @ValueSource(strings = ["OO", "OC", "CO", "CC"])
+        internal fun `should return null inputWithoutPrediction responses`(inputWithoutPrediction: String) {
+            assertNull(inputWithoutPrediction(inputWithoutPrediction))
+            assertEquals(
+                "correct input should be of the form CC, where the first two letters indicate [O]pen or [C]losed state for each hand",
+                inputWithoutPrediction("CC2")
+            )
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = ["OO4", "OC3", "CO2", "CC0", "chicken", ""])
+        internal fun `should return error message inputWithoutPrediction responses`(inputWithoutPrediction: String) {
+            assertEquals(
+                "correct input should be of the form CC, where the first two letters indicate [O]pen or [C]losed state for each hand",
+                inputWithoutPrediction(inputWithoutPrediction)
+            )
+        }
     }
 
     @Nested
