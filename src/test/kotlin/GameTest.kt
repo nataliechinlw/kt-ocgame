@@ -1,3 +1,7 @@
+import InputValidator.inputWithPrediction
+import InputValidator.inputWithoutPrediction
+import InputValidator.positiveInteger
+import InputValidator.yesNo
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,7 +17,8 @@ internal class GameTest {
         mockkObject(Terminal)
         mockkConstructor(Round::class)
         every { Terminal.printMessage(any()) } just runs
-        every { Terminal.getInput(any()) } returns "N"
+        every { Terminal.getInput(::positiveInteger) } returns "1"
+        every { Terminal.getInput(::yesNo) } returns "N"
     }
 
     @Test
@@ -45,6 +50,7 @@ internal class GameTest {
             testGame.start()
             Terminal.printMessage("Welcome to the game!")
             Terminal.printMessage("What is your target score?")
+            Terminal.getInput(::positiveInteger)
             testGame.resetPlayers()
             testGame["runSession"]()
             Terminal.printMessage("Do you want to play again?")
@@ -56,7 +62,7 @@ internal class GameTest {
     @Test
     internal fun `should run new session if player wants to replay`() {
         every { testGame["runSession"]() } returns Unit
-        every { Terminal.getInput(any()) } returnsMany listOf("Y", "Y", "N")
+        every { Terminal.getInput(::yesNo) } returnsMany listOf("Y", "Y", "N")
         testGame.start()
         verify(exactly = 3) { testGame["runSession"]() }
 
@@ -65,7 +71,8 @@ internal class GameTest {
     @Test
     internal fun `should keep running round until winner is found`() {
         every { anyConstructed<Round>().winner } returnsMany listOf(null, null, Player.HUMAN)
-        every { Terminal.getInput(any()) } returnsMany listOf("OO2", "CC", "OO1", "N")
+        every { Terminal.getInput(::inputWithPrediction) } returns "OO1"
+        every { Terminal.getInput(::inputWithoutPrediction) } returns "CC"
         testGame.start()
         verify(exactly = 3) { anyConstructed<Round>().winner }
     }

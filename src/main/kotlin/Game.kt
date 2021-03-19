@@ -1,3 +1,4 @@
+import InputValidator.positiveInteger
 import InputValidator.yesNo
 
 class Game {
@@ -9,6 +10,7 @@ class Game {
     fun start() {
         Terminal.printMessage("Welcome to the game!")
         Terminal.printMessage("What is your target score?")
+        Terminal.getInput(::positiveInteger)
         while (true) {
             winner = null
             resetPlayers()
