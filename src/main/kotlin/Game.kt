@@ -24,20 +24,6 @@ class Game {
     }
 
     private fun runSession() {
-        winner = null
-        resetPlayers()
-        while (winner == null) {
-            winner = Round(currentPredictor()).winner
-            setNextPredictor()
-        }
-    }
-
-    fun setNextPredictor() {
-        val nextPlayer = predictorQueue.removeAt(0)
-        predictorQueue.add(nextPlayer)
-    }
-
-    fun resetPlayers() {
-        predictorQueue = players.toMutableList()
+        winner = Session().winner
     }
 }

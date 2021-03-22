@@ -17,7 +17,7 @@ internal class GameTest {
     internal fun setUp() {
         unmockkAll()
         mockkObject(Terminal)
-        mockkConstructor(Round::class)
+        mockkConstructor(Session::class)
         every { Terminal.printMessage(any()) } just runs
         every { Terminal.getInput(::positiveInteger) } returns "1"
         every { Terminal.getInput(::yesNo) } returns "N"
@@ -28,19 +28,6 @@ internal class GameTest {
         val newGame = Game()
         assertEquals(Player.HUMAN, newGame.currentPredictor())
         assertNull(newGame.winner)
-    }
-
-    @Test
-    internal fun `should switch between AI and HUMAN as predictor after each round`() {
-        val newGame = Game()
-        newGame.setNextPredictor()
-        assertEquals(Player.AI, newGame.currentPredictor())
-        newGame.setNextPredictor()
-        assertEquals(Player.HUMAN, newGame.currentPredictor())
-        newGame.setNextPredictor()
-        assertEquals(Player.AI, newGame.currentPredictor())
-        newGame.setNextPredictor()
-        assertEquals(Player.HUMAN, newGame.currentPredictor())
     }
 
     @Test
@@ -67,24 +54,6 @@ internal class GameTest {
         testGame.start()
         verify(exactly = 3) { testGame["runSession"]() }
 
-    }
-
-    @Test
-    internal fun `should keep running round until winner is found`() {
-        every { anyConstructed<Round>().winner } returnsMany listOf(null, null, Player.HUMAN)
-        every { Terminal.getInput(::inputWithPrediction) } returns "OO1"
-        every { Terminal.getInput(::inputWithoutPrediction) } returns "CC"
-        testGame.start()
-        verify(exactly = 3) { anyConstructed<Round>().winner }
-    }
-
-    @Test
-    internal fun `should reset players`() {
-        val game = Game()
-        assertEquals(listOf(Player.HUMAN, Player.AI), game.predictorQueue)
-        game.setNextPredictor()
-        game.resetPlayers()
-        assertEquals(listOf(Player.HUMAN, Player.AI), game.predictorQueue)
     }
 
     @ParameterizedTest
