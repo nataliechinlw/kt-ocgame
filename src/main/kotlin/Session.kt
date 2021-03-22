@@ -1,8 +1,10 @@
 class Session {
     var winner: Player? = null
+    fun currentPredictor() = Player.HUMAN
+
     init {
         while (winner == null) {
-            winner = Round(Player.HUMAN).winner
+            winner = Round(currentPredictor()).winner
         }
     }
 }

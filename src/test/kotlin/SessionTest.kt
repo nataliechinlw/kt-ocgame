@@ -3,6 +3,7 @@ import InputValidator.inputWithoutPrediction
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class SessionTest {
     @BeforeEach
@@ -20,5 +21,13 @@ internal class SessionTest {
 
         Session()
         verify(exactly = 3) { anyConstructed<Round>().winner }
+    }
+
+    @Test
+    internal fun `should start with HUMAN as predictor`() {
+        every { anyConstructed<Round>().winner } returns Player.HUMAN
+        every { Terminal.getInput(::inputWithPrediction) } returns "OO1"
+
+        assertEquals(Player.HUMAN, Session().currentPredictor())
     }
 }
