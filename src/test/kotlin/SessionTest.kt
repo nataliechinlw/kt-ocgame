@@ -11,12 +11,12 @@ internal class SessionTest {
         unmockkAll()
         mockkObject(Terminal)
         mockkConstructor(Round::class)
+        every { Terminal.getInput(::inputWithPrediction) } returns "OO1"
     }
 
     @Test
     internal fun `should keep running round until winner is found`() {
         every { anyConstructed<Round>().winner } returnsMany listOf(null, null, Player.HUMAN)
-        every { Terminal.getInput(::inputWithPrediction) } returns "OO1"
         every { Terminal.getInput(::inputWithoutPrediction) } returns "CC"
 
         Session()
@@ -24,10 +24,15 @@ internal class SessionTest {
     }
 
     @Test
-    internal fun `should start with HUMAN as predictor`() {
+    internal fun `should switch between AI and HUMAN as predictor after each round`() {
         every { anyConstructed<Round>().winner } returns Player.HUMAN
-        every { Terminal.getInput(::inputWithPrediction) } returns "OO1"
-
-        assertEquals(Player.HUMAN, Session().currentPredictor())
+        val session = Session()
+        assertEquals(Player.AI, session.currentPredictor())
+        session.setNextPredictor()
+        assertEquals(Player.HUMAN, session.currentPredictor())
+        session.setNextPredictor()
+        assertEquals(Player.AI, session.currentPredictor())
+        session.setNextPredictor()
+        assertEquals(Player.HUMAN, session.currentPredictor())
     }
 }
