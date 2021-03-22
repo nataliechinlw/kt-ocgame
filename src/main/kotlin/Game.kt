@@ -3,7 +3,7 @@ import InputValidator.yesNo
 
 class Game {
     private val players = listOf(Player.HUMAN, Player.AI)
-    var winner: Player? = null
+    var winners = emptyList<Player>().toMutableList()
     var predictorQueue = players.toMutableList()
     fun currentPredictor() = predictorQueue.elementAt(0)
 
@@ -12,7 +12,8 @@ class Game {
         Terminal.printMessage("What is your target score?")
         val targetScore = Terminal.getInput(::positiveInteger).toInt()
         while (true) {
-            for (i in 0 until targetScore) {
+            winners = emptyList<Player>().toMutableList()
+            while (winners.count { it == Player.HUMAN } < targetScore) {
                 runSession()
             }
             Terminal.printMessage("Do you want to play again?")
@@ -26,6 +27,8 @@ class Game {
     private fun runSession() {
         val session = Session()
         session.run()
-        winner = session.winner
+        val winner = session.winner
+        winner?.let { winners.add(it) }
+        println(winners)
     }
 }

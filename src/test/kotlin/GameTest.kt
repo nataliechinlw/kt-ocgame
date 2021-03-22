@@ -1,5 +1,3 @@
-import InputValidator.inputWithPrediction
-import InputValidator.inputWithoutPrediction
 import InputValidator.positiveInteger
 import InputValidator.yesNo
 import io.mockk.*
@@ -7,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
+import kotlin.random.Random
+import kotlin.test.assertTrue
 
 internal class GameTest {
     private var testGame = spyk(Game(), recordPrivateCalls = true)
@@ -21,18 +19,12 @@ internal class GameTest {
         every { Terminal.printMessage(any()) } just runs
         every { Terminal.getInput(::positiveInteger) } returns "1"
         every { Terminal.getInput(::yesNo) } returns "N"
-    }
-
-    @Test
-    internal fun `should start with HUMAN player as predictor and no winner in a new Game`() {
-        val newGame = Game()
-        assertEquals(Player.HUMAN, newGame.currentPredictor())
-        assertNull(newGame.winner)
+        every { anyConstructed<Session>().run() } just runs
+        every { anyConstructed<Session>().winner } returns Player.HUMAN
     }
 
     @Test
     internal fun `should welcome and run game`() {
-        every { testGame["runSession"]() } returns Unit
         every { Terminal.getInput() } returns "N"
         testGame.start()
         verifySequence {
@@ -49,7 +41,6 @@ internal class GameTest {
 
     @Test
     internal fun `should run new session if player wants to replay`() {
-        every { testGame["runSession"]() } returns Unit
         every { Terminal.getInput(::yesNo) } returnsMany listOf("Y", "Y", "N")
         testGame.start()
         verify(exactly = 3) { testGame["runSession"]() }
@@ -58,16 +49,12 @@ internal class GameTest {
 
     @ParameterizedTest
     @ValueSource(ints = [2, 5, 10])
-    internal fun `should run session twice`(targetScore: Int) {
+    internal fun `should run session multiple times`(targetScore: Int) {
         every { Terminal.getInput(::positiveInteger) } returns targetScore.toString()
-        every { testGame["runSession"]() } answers {
-            testGame.winner = Player.HUMAN
-            Unit
-        }
+        every { anyConstructed<Session>().winner } returnsMany listOf(Player.AI, Player.HUMAN)
 
         testGame.start()
-        verify(exactly = targetScore) {
-            testGame["runSession"]()
-        }
+        verify(atLeast = targetScore) { testGame["runSession"]() }
+        assertTrue(testGame.winners.count { it == Player.HUMAN } >= targetScore)
     }
 }
