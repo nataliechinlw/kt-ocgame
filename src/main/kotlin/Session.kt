@@ -4,12 +4,11 @@ class Session {
     var predictorQueue = players.toMutableList()
     fun currentPredictor() = predictorQueue.elementAt(0)
 
-    init {
+    fun run() {
         while (winner == null) {
             winner = Round(currentPredictor()).winner
             setNextPredictor()
-        }
-    }
+        }    }
 
     fun setNextPredictor() {
         val nextPlayer = predictorQueue.removeAt(0)

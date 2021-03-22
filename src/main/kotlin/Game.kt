@@ -24,6 +24,8 @@ class Game {
     }
 
     private fun runSession() {
-        winner = Session().winner
+        val session = Session()
+        session.run()
+        winner = session.winner
     }
 }

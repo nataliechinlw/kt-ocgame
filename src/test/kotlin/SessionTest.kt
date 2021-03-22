@@ -19,20 +19,19 @@ internal class SessionTest {
         every { anyConstructed<Round>().winner } returnsMany listOf(null, null, Player.HUMAN)
         every { Terminal.getInput(::inputWithoutPrediction) } returns "CC"
 
-        Session()
+        Session().run()
         verify(exactly = 3) { anyConstructed<Round>().winner }
     }
 
     @Test
     internal fun `should switch between AI and HUMAN as predictor after each round`() {
-        every { anyConstructed<Round>().winner } returns Player.HUMAN
         val session = Session()
-        assertEquals(Player.AI, session.currentPredictor())
-        session.setNextPredictor()
         assertEquals(Player.HUMAN, session.currentPredictor())
         session.setNextPredictor()
         assertEquals(Player.AI, session.currentPredictor())
         session.setNextPredictor()
         assertEquals(Player.HUMAN, session.currentPredictor())
+        session.setNextPredictor()
+        assertEquals(Player.AI, session.currentPredictor())
     }
 }
